@@ -1,0 +1,4143 @@
+package P62.fr.gouv.education.sirhen.gin.congesabsences
+import fr.gouv.education.sirhen.ct.moteurregles.transverse.util.DateUtil
+import fr.gouv.education.sirhen.ct.moteurregles.commun.impl.Resultat
+import fr.gouv.education.sirhen.ct.moteurregles.commun.impl.Regle
+import fr.gouv.education.sirhen.gin.congesabsences.transverse.fait.CongeAbsenceFait
+import fr.gouv.education.sirhen.ct.commun.transverse.DateUtils
+import fr.gouv.education.sirhen.gin.congesabsences.transverse.fait.AgentFait
+
+
+
+
+#generated from Decision Table
+#From row number: 10
+rule "AAS_S_001"
+	
+	when
+		$regle : Regle(code=="AAS_S_001", valide==true, verifiee==false)
+		$agent : AgentFait(statut == "TITU1")
+		$ret : Resultat(population == null)
+	then
+		$ret.setPopulation("TITULAIRE");
+ update($ret);
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 11
+rule "AAS_S_002"
+	
+	when
+		$regle : Regle(code=="AAS_S_002", valide==true, verifiee==false)
+		$agent : AgentFait(statut == "STAGI")
+		$ret : Resultat(population == null)
+	then
+		$ret.setPopulation("STAGIAIRE");
+ update($ret);
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 12
+rule "AAS_D_001_1"
+	
+	when
+		$regle : Regle(code=="AAS_D_001", valide==true, verifiee==false)
+		$ret : Resultat(population == "TITULAIRE")
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 13
+rule "AAS_D_001_2"
+	
+	when
+		$regle : Regle(code=="AAS_D_001", valide==true, verifiee==false)
+		$ret : Resultat(population == "STAGIAIRE")
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 14
+rule "AAS_D_004"
+	
+	when
+		$regle : Regle(code=="AAS_D_004", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "AAS_D_001",(valide == false || verifiee == true))
+		$agent : AgentFait()
+$congeAbsence : CongeAbsenceFait(droitsRestant != null , dureeGestion != null ,dureeGestion <= droitsRestant)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 15
+rule "AAS_C_001"
+	
+	when
+		$regle : Regle(code=="AAS_C_001", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "AAS_D_001",(valide == false || verifiee == true))
+		$agent : AgentFait(positionCouranteEnActivite == true)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 16
+rule "AAS_C_004"
+	
+	when
+		$regle : Regle(code=="AAS_C_004", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "AAS_D_001",(valide == false || verifiee == true))
+		$agent : AgentFait()
+$congeAbsence : CongeAbsenceFait(dateDebut != null, dateFinReelle != null, eval(DateUtil.beforeIncludePrecisionJour(dateDebut, dateFinReelle)))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 17
+rule "AAS_C_006"
+	
+	when
+		$regle : Regle(code=="AAS_C_006", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "AAS_D_001",(valide == false || verifiee == true))
+		$agent : AgentFait()
+$congeAbsence : CongeAbsenceFait(dateFinReelle != null, eval($agent.getDateLimiteDepartRetraite() != null), eval(DateUtil.beforePrecisionJour(dateFinReelle, $agent.getDateLimiteDepartRetraite())))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+
+
+#generated from Decision Table
+#From row number: 10
+rule "ADO_S_001"
+	
+	when
+		$regle : Regle(code=="ADO_S_001", valide==true, verifiee==false)
+		$agent : AgentFait(statut == "TITU1")
+		$ret : Resultat(population == null)
+	then
+		$ret.setPopulation("TITULAIRE");
+ update($ret);
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 11
+rule "ADO_S_002"
+	
+	when
+		$regle : Regle(code=="ADO_S_002", valide==true, verifiee==false)
+		$agent : AgentFait(statut == "STAGI")
+		$ret : Resultat(population == null)
+	then
+		$ret.setPopulation("STAGIAIRE");
+ update($ret);
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 12
+rule "ADO_D_001_1"
+	
+	when
+		$regle : Regle(code=="ADO_D_001", valide==true, verifiee==false)
+		$ret : Resultat(population == "TITULAIRE")
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 13
+rule "ADO_D_001_2"
+	
+	when
+		$regle : Regle(code=="ADO_D_001", valide==true, verifiee==false)
+		$ret : Resultat(population == "STAGIAIRE")
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 14
+rule "ADO_D_002"
+	
+	when
+		$regle : Regle(code=="ADO_D_002", valide==true, verifiee==false)
+		$agent : AgentFait(positionCouranteEnActivite == true)
+		$ret : Resultat(population == "TITULAIRE")
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 15
+rule "ADO_D_003"
+	
+	when
+		$regle : Regle(code=="ADO_D_003", valide==true, verifiee==false)
+		$agent : AgentFait(positionCouranteEnActivite == true)
+		$ret : Resultat(population == "STAGIAIRE")
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 16
+rule "ADO_D_205_1"
+	
+	when
+		$regle : Regle(code=="ADO_D_205", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "ADO_D_001",(valide == false || verifiee == true))
+		$agent : AgentFait(nombreEnfantsACharge >1)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 17
+rule "ADO_D_205_2"
+	
+	when
+		$regle : Regle(code=="ADO_D_205", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "ADO_D_001",(valide == false || verifiee == true))
+		$agent : AgentFait()
+$congeAbsence : CongeAbsenceFait(dureeGestion == 70)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 18
+rule "ADO_D_207_1"
+	
+	when
+		$regle : Regle(code=="ADO_D_207", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "ADO_D_001",(valide == false || verifiee == true))
+		$agent : AgentFait(nombreEnfantsACharge <2)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 19
+rule "ADO_D_207_2"
+	
+	when
+		$regle : Regle(code=="ADO_D_207", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "ADO_D_001",(valide == false || verifiee == true))
+		$agent : AgentFait()
+$congeAbsence : CongeAbsenceFait(dureeGestion == 126)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 20
+rule "ADO_C_005"
+	
+	when
+		$regle : Regle(code=="ADO_C_005", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "ADO_D_001",(valide == false || verifiee == true))
+		$agent : AgentFait()
+$congeAbsence : CongeAbsenceFait(dateDebut != null, dateFinReelle != null, eval(DateUtil.beforePrecisionJour(dateDebut,dateFinReelle)))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 21
+rule "ADO_C_006"
+	
+	when
+		$regle : Regle(code=="ADO_C_006", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "ADO_D_001",(valide == false || verifiee == true))
+		$agent : AgentFait()
+$congeAbsence : CongeAbsenceFait(dateFinReelle != null, eval($agent.getDateLimiteDepartRetraite() != null), eval(DateUtil.beforePrecisionJour(dateFinReelle,$agent.getDateLimiteDepartRetraite())))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+
+
+#generated from Decision Table
+#From row number: 10
+rule "ASF_S_001"
+	
+	when
+		$regle : Regle(code=="ASF_S_001", valide==true, verifiee==false)
+		$agent : AgentFait(statut == "TITU1")
+		$ret : Resultat(population == null)
+	then
+		$ret.setPopulation("TITULAIRE");
+ update($ret);
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 11
+rule "ASF_S_002"
+	
+	when
+		$regle : Regle(code=="ASF_S_002", valide==true, verifiee==false)
+		$agent : AgentFait(statut == "STAGI")
+		$ret : Resultat(population == null)
+	then
+		$ret.setPopulation("STAGIAIRE");
+ update($ret);
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 12
+rule "ASF_S_003_1"
+	
+	when
+		$regle : Regle(code=="ASF_S_003", valide==true, verifiee==false)
+		$ret : Resultat(population == "TITULAIRE")
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 13
+rule "ASF_S_003_2"
+	
+	when
+		$regle : Regle(code=="ASF_S_003", valide==true, verifiee==false)
+		$ret : Resultat(population == "STAGIAIRE")
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 14
+rule "ASF_C_003"
+	
+	when
+		$regle : Regle(code=="ASF_C_003", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "ASF_S_003",(valide == false || verifiee == true))
+		$agent : AgentFait(positionCouranteEnActivite == true)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 15
+rule "ASF_C_004"
+	
+	when
+		$regle : Regle(code=="ASF_C_004", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "ASF_S_003",(valide == false || verifiee == true))
+		$agent : AgentFait()
+$congeAbsence : CongeAbsenceFait(dateDebut != null, dateFinReelle != null, eval(DateUtil.compareToPrecisionJour(dateDebut ,dateFinReelle)<=0))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 16
+rule "ASF_C_005"
+	
+	when
+		$regle : Regle(code=="ASF_C_005", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "ASF_S_003",(valide == false || verifiee == true))
+		$agent : AgentFait()
+$congeAbsence : CongeAbsenceFait(dateFinReelle != null, eval($agent.getDateLimiteDepartRetraite() != null), eval(DateUtil.compareToPrecisionJour(dateFinReelle, $agent.getDateLimiteDepartRetraite())<= 0))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+
+
+######################################################################################
+# Regles metiers pour AAS
+######################################################################################
+
+rule "AAS_EVT_dmd_autre_niveau"
+salience -1
+no-loop 
+	when
+		$r1 : Regle(code == "AAS_D_001",(valide == false || verifiee == true));
+		$r2 : Regle(code == "AAS_C_001",(valide == false || verifiee == true));
+		$r3 : Regle(code == "AAS_C_004",(valide == false || verifiee == true));
+		$r5 : Regle(code == "AAS_C_006", valide == true);
+		$resultat : Resultat();
+	then
+		$resultat.setVerifiee(true);
+		update($resultat);
+end
+
+rule "AAS_EVT_dmd_paritaire"
+salience -1
+no-loop 
+	when
+		$r1 : Regle(code == "AAS_D_001",(valide == false || verifiee == true));
+		$r2 : Regle(code == "AAS_C_001",(valide == false || verifiee == true));
+		$r3 : Regle(code == "AAS_C_004",(valide == false || verifiee == true));
+		$r5 : Regle(code == "AAS_C_006", valide == true);
+		$resultat : Resultat();
+	then
+		$resultat.setVerifiee(true);
+		update($resultat);
+end
+
+rule "AAS_EVT_dmd_national"
+salience -1
+no-loop 
+	when
+		$r1 : Regle(code == "AAS_D_001",(valide == false || verifiee == true));
+		$r2 : Regle(code == "AAS_D_004",(valide == false || verifiee == true));
+		$r3 : Regle(code == "AAS_C_001",(valide == false || verifiee == true));
+		$r4 : Regle(code == "AAS_C_004",(valide == false || verifiee == true));
+		$r5 : Regle(code == "AAS_C_006", valide == true);
+		$resultat : Resultat();
+	then
+		$resultat.setVerifiee(true);
+		update($resultat);
+end
+
+rule "AAS_EVT_dmd_international"
+salience -1
+#agenda-group "AAS_dmd_international"
+no-loop 
+	when
+		$r1 : Regle(code == "AAS_D_001",(valide == false || verifiee == true));
+		$r2 : Regle(code == "AAS_D_004",(valide == false || verifiee == true));
+		$r3 : Regle(code == "AAS_C_001",(valide == false || verifiee == true));
+		$r4 : Regle(code == "AAS_C_004",(valide == false || verifiee == true));
+		$r5 : Regle(code == "AAS_C_006", valide == true);
+		$resultat : Resultat();
+	then
+		$resultat.setVerifiee(true);
+		update($resultat);
+end
+
+
+
+######################################################################################
+# Regle metier pour ADI
+######################################################################################
+
+rule "ADI_EVT_demande_autorisation_absence_divers"
+salience -1
+no-loop 
+	when
+		$r1 : Regle(code == "ADI_D_001",(valide == false || verifiee == true));
+		$r2 : Regle(code == "ADI_C_001",(valide == false || verifiee == true));
+		$r3 : Regle(code == "ADI_C_004",(valide == false || verifiee == true));
+		$r4 : Regle(code == "ADI_C_006", valide == true);
+		$resultat : Resultat();
+	then
+		$resultat.setVerifiee(true);
+		update($resultat);
+end 
+
+rule "ADI_EVT_demande_autorisation_absence_defense_citoyennete"
+salience -1
+no-loop 
+	when
+		$r1 : Regle(code == "ADI_D_001",(valide == false || verifiee == true));
+		$r2 : Regle(code == "ADI_C_001",(valide == false || verifiee == true));
+		$r3 : Regle(code == "ADI_C_004",(valide == false || verifiee == true));
+		$r4 : Regle(code == "ADI_C_006", valide == true);
+		$resultat : Resultat();
+	then
+		$resultat.setVerifiee(true);
+		update($resultat);
+end
+
+rule "ADI_EVT_demande_autorisation_absence_mariage_pacs"
+salience -1
+no-loop 
+	when
+		$r1 : Regle(code == "ADI_D_001",(valide == false || verifiee == true));
+		$r2 : Regle(code == "ADI_C_001",(valide == false || verifiee == true));
+		$r3 : Regle(code == "ADI_C_004",(valide == false || verifiee == true));
+		$r4 : Regle(code == "ADI_C_006", valide == true);
+		$r5 : Regle(code == "ADI_D_003",(valide == false || verifiee == true));
+		$resultat : Resultat();
+	then
+		$resultat.setVerifiee(true);
+		update($resultat);
+end
+
+rule "ADI_EVT_demande_autorisation_absence_deces_maladie"
+salience -1
+no-loop 
+	when
+		$r1 : Regle(code == "ADI_D_001",(valide == false || verifiee == true));
+		$r2 : Regle(code == "ADI_C_001",(valide == false || verifiee == true));
+		$r3 : Regle(code == "ADI_C_004",(valide == false || verifiee == true));
+		$r4 : Regle(code == "ADI_C_006", valide == true);
+		$r5 : Regle(code == "ADI_D_007",(valide == false || verifiee == true));
+		$resultat : Resultat();
+	then
+		$resultat.setVerifiee(true);
+		update($resultat);
+end
+
+rule "ADI_EVT_demande_autorisation_absence_garde_enfant"
+salience -1
+no-loop 
+	when
+		$r1 : Regle(code == "ADI_D_001",(valide == false || verifiee == true));
+		$r2 : Regle(code == "ADI_C_001",(valide == false || verifiee == true));
+		$r3 : Regle(code == "ADI_C_004",(valide == false || verifiee == true));
+		$r4 : Regle(code == "ADI_C_006", valide == true);
+		$r5 : Regle(code == "ADI_D_008",(valide == false || verifiee == true));
+		$resultat : Resultat();
+	then
+		$resultat.setVerifiee(true);
+		update($resultat);
+end
+
+
+
+
+
+######################################################################################
+# Regle metier pour AD0
+######################################################################################
+
+rule "ADO_EVT_demande_titulaire"
+salience -1
+no-loop 
+	when	
+		$resultat : Resultat(population == "TITULAIRE")
+		$r1 : Regle(code == "ADO_D_001",(valide == false || verifiee == true));
+		$r5 : Regle(code == "ADO_C_005",(valide == false || verifiee == true));
+		$r7 : Regle(code == "ADO_D_002",(valide == false || verifiee == true));
+		$r2 : Regle(code == "ADO_D_205", valide == true);
+		$r3 : Regle(code == "ADO_D_207", valide == true);
+		$r6 : Regle(code == "ADO_C_006", valide == true);
+	then
+		$resultat.setVerifiee(true);
+		update($resultat);
+end
+
+rule "ADO_EVT_demande_stagiaire"
+salience -1
+no-loop 
+	when	
+		$resultat : Resultat(population == "STAGIAIRE")
+		$r1 : Regle(code == "ADO_D_001",(valide == false || verifiee == true));
+		$r5 : Regle(code == "ADO_C_005",(valide == false || verifiee == true));
+		$r7 : Regle(code == "ADO_D_003",(valide == false || verifiee == true));
+		$r2 : Regle(code == "ADO_D_205", valide == true);
+		$r3 : Regle(code == "ADO_D_207", valide == true);
+		$r6 : Regle(code == "ADO_C_006", valide == true);
+	then
+		$resultat.setVerifiee(true);
+		update($resultat);
+end
+
+
+
+
+
+######################################################################################
+# Regle metier pour ASF
+######################################################################################
+
+rule "ASF_EVT_demande_absence_service"
+salience -1
+no-loop 
+	when
+		$r1 : Regle(code == "ASF_S_003",(valide == false || verifiee == true));
+		$r3 : Regle(code == "ASF_C_003",(valide == false || verifiee == true));
+		$r4 : Regle(code == "ASF_C_004",(valide == false || verifiee == true));
+		$r5 : Regle(code == "ASF_C_005", valide == true);
+		$resultat : Resultat();
+	then
+		$resultat.setVerifiee(true);
+		update($resultat);
+end
+
+#generated from Decision Table
+#From row number: 10
+rule "CAC_S_001"
+	
+	when
+		$regle : Regle(code=="CAC_S_001", valide==true, verifiee==false)
+		$agent : AgentFait(statut == "TITU1")
+		$ret : Resultat(population == null)
+	then
+		$ret.setPopulation("TITULAIRE");
+ update($ret);
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 11
+rule "CAC_S_002"
+	
+	when
+		$regle : Regle(code=="CAC_S_002", valide==true, verifiee==false)
+		$agent : AgentFait(statut == "STAGI")
+		$ret : Resultat(population == null)
+	then
+		$ret.setPopulation("STAGIAIRE");
+ update($ret);
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 12
+rule "CAC_D_001_1"
+	
+	when
+		$regle : Regle(code=="CAC_D_001", valide==true, verifiee==false)
+		$ret : Resultat(population == "TITULAIRE")
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 13
+rule "CAC_D_001_2"
+	
+	when
+		$regle : Regle(code=="CAC_D_001", valide==true, verifiee==false)
+		$ret : Resultat(population == "STAGIAIRE")
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 14
+rule "CAC_S_003_1"
+	
+	when
+		$regle : Regle(code=="CAC_S_003", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CAC_D_001",(valide == false || verifiee == true))
+		$agent : AgentFait(codeAdresseProfessionnelle != codeAdresseAffectation)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 15
+rule "CAC_S_003_2"
+	
+	when
+		$regle : Regle(code=="CAC_S_003", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CAC_D_001",(valide == false || verifiee == true))
+		$agent : AgentFait(codeAdresseProfessionnelle not in ("986","987","988"))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 16
+rule "CAC_S_003_3"
+	
+	when
+		$regle : Regle(code=="CAC_S_003", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CAC_D_001",(valide == false || verifiee == true))
+		$agent : AgentFait(codeAdresseProfessionnelle == cimm)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 17
+rule "CAC_D_002_1"
+	
+	when
+		$regle : Regle(code=="CAC_D_002", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CAC_D_001",(valide == false || verifiee == true))
+		$agent : AgentFait(codeAdresseProfessionnelle == codeAdresseAffectation, codeAdresseProfessionnelle in ("986","987","988"))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 18
+rule "CAC_D_002_2"
+	
+	when
+		$regle : Regle(code=="CAC_D_002", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CAC_D_001",(valide == false || verifiee == true))
+		$regleIntermediaire2 : Regle(code == "CAC_D_013",(valide == false || verifiee == true))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 19
+rule "CAC_D_002_3"
+	
+	when
+		$regle : Regle(code=="CAC_D_002", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CAC_D_001",(valide == false || verifiee == true))
+		$regleIntermediaire2 : Regle(code == "CAC_D_020",(valide == false || verifiee == true))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 20
+rule "CAC_D_002_4"
+	
+	when
+		$regle : Regle(code=="CAC_D_002", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CAC_D_001",(valide == false || verifiee == true))
+		$regleIntermediaire2 : Regle(code == "CAC_D_031",(valide == false || verifiee == true))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 21
+rule "CAC_D_003_1"
+	
+	when
+		$regle : Regle(code=="CAC_D_003", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CAC_S_003",(valide == false || verifiee == true))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 22
+rule "CAC_D_003_2"
+	
+	when
+		$regle : Regle(code=="CAC_D_003", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CAC_D_001",(valide == false || verifiee == true))
+		$agent : AgentFait(positionCouranteEnActivite == true)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 23
+rule "CAC_D_004_1"
+	
+	when
+		$regle : Regle(code=="CAC_D_004", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CAC_S_003",(valide == false || verifiee == true))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 24
+rule "CAC_D_004_2"
+	
+	when
+		$regle : Regle(code=="CAC_D_004", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CAC_D_001",(valide == false || verifiee == true))
+		$agent : AgentFait(codeAdresseProfessionnelle != cimm)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 25
+rule "CAC_D_006_1"
+	
+	when
+		$regle : Regle(code=="CAC_D_006", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CAC_S_003",(valide == false || verifiee == true))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 26
+rule "CAC_D_006_2"
+	
+	when
+		$regle : Regle(code=="CAC_D_006", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CAC_D_001",(valide == false || verifiee == true))
+		$agent : AgentFait() 
+$congeAbsence : CongeAbsenceFait(dateDebut != null, dateFinReelle != null, eval(DateUtil.verifierDureePeriodeMois(dateDebut, dateFinReelle,2) <= 0))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 27
+rule "CAC_S_004_1"
+	
+	when
+		$regle : Regle(code=="CAC_S_004", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CAC_D_001",(valide == false || verifiee == true))
+		$agent : AgentFait(codeAdresseProfessionnelle != codeAdresseAffectation)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 28
+rule "CAC_S_004_2"
+	
+	when
+		$regle : Regle(code=="CAC_S_004", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CAC_D_001",(valide == false || verifiee == true))
+		$agent : AgentFait(codeAdresseProfessionnelle not in ("986","987","988"))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 29
+rule "CAC_S_004_3"
+	
+	when
+		$regle : Regle(code=="CAC_S_004", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CAC_D_001",(valide == false || verifiee == true))
+		$agent : AgentFait(codeAdresseProfessionnelle != cimm)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 30
+rule "CAC_D_013_1"
+	
+	when
+		$regle : Regle(code=="CAC_D_013", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CAC_D_001",(valide == false || verifiee == true))
+		$agent : AgentFait(codeAdresseProfessionnelle == codeAdresseAffectation, codeAdresseProfessionnelle in ("986","987","988"))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 31
+rule "CAC_D_013_2"
+	
+	when
+		$regle : Regle(code=="CAC_D_013", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CAC_D_001",(valide == false || verifiee == true))
+		$regleIntermediaire2 : Regle(code == "CAC_D_002",(valide == false || verifiee == true))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 32
+rule "CAC_D_013_3"
+	
+	when
+		$regle : Regle(code=="CAC_D_013", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CAC_D_001",(valide == false || verifiee == true))
+		$regleIntermediaire2 : Regle(code == "CAC_D_020",(valide == false || verifiee == true))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 33
+rule "CAC_D_013_4"
+	
+	when
+		$regle : Regle(code=="CAC_D_013", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CAC_D_001",(valide == false || verifiee == true))
+		$regleIntermediaire2 : Regle(code == "CAC_D_031",(valide == false || verifiee == true))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 34
+rule "CAC_D_014_1"
+	
+	when
+		$regle : Regle(code=="CAC_D_014", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CAC_S_004",(valide == false || verifiee == true))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 35
+rule "CAC_D_014_2"
+	
+	when
+		$regle : Regle(code=="CAC_D_014", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CAC_D_001",(valide == false || verifiee == true))
+		$agent : AgentFait(positionCouranteEnActivite == true)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 36
+rule "CAC_D_015_1"
+	
+	when
+		$regle : Regle(code=="CAC_D_015", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CAC_S_004",(valide == false || verifiee == true))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 37
+rule "CAC_D_015_2"
+	
+	when
+		$regle : Regle(code=="CAC_D_015", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CAC_D_001",(valide == false || verifiee == true))
+		$agent : AgentFait(codeAdresseProfessionnelle == cimm)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 38
+rule "CAC_D_019_1"
+	
+	when
+		$regle : Regle(code=="CAC_D_019", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CAC_S_004",(valide == false || verifiee == true))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 39
+rule "CAC_D_019_2"
+	
+	when
+		$regle : Regle(code=="CAC_D_019", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CAC_D_001",(valide == false || verifiee == true))
+		$agent : AgentFait() 
+$congeAbsence : CongeAbsenceFait(dateDebut != null, dateFinReelle != null, eval(DateUtil.verifierDureePeriodeMois(dateDebut, dateFinReelle,3) <= 0))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 40
+rule "CAC_S_005_1"
+	
+	when
+		$regle : Regle(code=="CAC_S_005", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CAC_D_001",(valide == false || verifiee == true))
+		$agent : AgentFait(codeAdresseProfessionnelle != codeAdresseAffectation)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 41
+rule "CAC_S_005_2"
+	
+	when
+		$regle : Regle(code=="CAC_S_005", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CAC_D_001",(valide == false || verifiee == true))
+		$agent : AgentFait(codeAdresseProfessionnelle != "976")
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 42
+rule "CAC_D_020_1"
+	
+	when
+		$regle : Regle(code=="CAC_D_020", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CAC_D_001",(valide == false || verifiee == true))
+		$agent : AgentFait(codeAdresseProfessionnelle == codeAdresseAffectation, codeAdresseProfessionnelle == "976")
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 43
+rule "CAC_D_020_2"
+	
+	when
+		$regle : Regle(code=="CAC_D_020", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CAC_D_001",(valide == false || verifiee == true))
+		$regleIntermediaire2 : Regle(code == "CAC_D_002",(valide == false || verifiee == true))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 44
+rule "CAC_D_020_3"
+	
+	when
+		$regle : Regle(code=="CAC_D_020", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CAC_D_001",(valide == false || verifiee == true))
+		$regleIntermediaire2 : Regle(code == "CAC_D_013",(valide == false || verifiee == true))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 45
+rule "CAC_D_020_4"
+	
+	when
+		$regle : Regle(code=="CAC_D_020", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CAC_D_001",(valide == false || verifiee == true))
+		$regleIntermediaire2 : Regle(code == "CAC_D_031",(valide == false || verifiee == true))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 46
+rule "CAC_D_021_1"
+	
+	when
+		$regle : Regle(code=="CAC_D_021", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CAC_S_005",(valide == false || verifiee == true))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 47
+rule "CAC_D_021_2"
+	
+	when
+		$regle : Regle(code=="CAC_D_021", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CAC_D_001",(valide == false || verifiee == true))
+		$agent : AgentFait(positionCouranteEnActivite == true)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 48
+rule "CAC_D_022_1"
+	
+	when
+		$regle : Regle(code=="CAC_D_022", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CAC_S_005",(valide == false || verifiee == true))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 49
+rule "CAC_D_022_2"
+	
+	when
+		$regle : Regle(code=="CAC_D_022", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CAC_D_001",(valide == false || verifiee == true))
+		$agent : AgentFait(codeAdresseProfessionnelle != cimm)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 50
+rule "CAC_D_024_1"
+	
+	when
+		$regle : Regle(code=="CAC_D_024", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CAC_S_005",(valide == false || verifiee == true))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 51
+rule "CAC_D_024_2"
+	
+	when
+		$regle : Regle(code=="CAC_D_024", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CAC_D_001",(valide == false || verifiee == true))
+		$agent : AgentFait() 
+$congeAbsence : CongeAbsenceFait(dateDebut != null, dateFinReelle != null, eval(DateUtil.verifierDureePeriodeMois(dateDebut, dateFinReelle,2) <= 0))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 52
+rule "CAC_S_006_1"
+	
+	when
+		$regle : Regle(code=="CAC_S_006", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CAC_D_001",(valide == false || verifiee == true))
+		$agent : AgentFait(codeAdresseProfessionnelle != codeAdresseAffectation)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 53
+rule "CAC_S_006_2"
+	
+	when
+		$regle : Regle(code=="CAC_S_006", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CAC_D_001",(valide == false || verifiee == true))
+		$agent : AgentFait(codeAdresseProfessionnelle != "984")
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 54
+rule "CAC_D_031_1"
+	
+	when
+		$regle : Regle(code=="CAC_D_031", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CAC_D_001",(valide == false || verifiee == true))
+		$agent : AgentFait(codeAdresseProfessionnelle == codeAdresseAffectation, codeAdresseProfessionnelle == "984")
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 55
+rule "CAC_D_031_2"
+	
+	when
+		$regle : Regle(code=="CAC_D_031", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CAC_D_001",(valide == false || verifiee == true))
+		$regleIntermediaire2 : Regle(code == "CAC_D_002",(valide == false || verifiee == true))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 56
+rule "CAC_D_031_3"
+	
+	when
+		$regle : Regle(code=="CAC_D_031", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CAC_D_001",(valide == false || verifiee == true))
+		$regleIntermediaire2 : Regle(code == "CAC_D_013",(valide == false || verifiee == true))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 57
+rule "CAC_D_031_4"
+	
+	when
+		$regle : Regle(code=="CAC_D_031", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CAC_D_001",(valide == false || verifiee == true))
+		$regleIntermediaire2 : Regle(code == "CAC_D_020",(valide == false || verifiee == true))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 58
+rule "CAC_D_034_1"
+	
+	when
+		$regle : Regle(code=="CAC_D_034", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CAC_S_006",(valide == false || verifiee == true))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 59
+rule "CAC_D_034_2"
+	
+	when
+		$regle : Regle(code=="CAC_D_034", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CAC_D_001",(valide == false || verifiee == true))
+		$agent : AgentFait() 
+$congeAbsence : CongeAbsenceFait(dateDebut != null, dateFinReelle != null, eval(DateUtil.verifierDureePeriodeMois(dateDebut, dateFinReelle,6) <= 0))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 60
+rule "CAC_C_002"
+	
+	when
+		$regle : Regle(code=="CAC_C_002", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CAC_D_001",(valide == false || verifiee == true))
+		$agent : AgentFait() 
+$congeAbsence : CongeAbsenceFait(dateDebut != null, dateFinReelle != null, eval( DateUtil.beforeIncludePrecisionJour(dateDebut,dateFinReelle)))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 61
+rule "CAC_C_003"
+	
+	when
+		$regle : Regle(code=="CAC_C_003", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CAC_D_001",(valide == false || verifiee == true))
+		$agent : AgentFait() 
+$congeAbsence : CongeAbsenceFait(dateFinReelle != null, eval($agent.getDateLimiteDepartRetraite() != null) ,eval(DateUtil.beforeIncludePrecisionJour(dateFinReelle,$agent.getDateLimiteDepartRetraite())))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+
+
+#created on: 13 déc. 2010
+
+######################################################################################
+# Regles metiers pour CAC
+######################################################################################
+
+rule "CAC_EVT_demande"
+salience -1
+no-loop 
+	when
+		$r1 : Regle(code == "CAC_D_001",(valide == false || verifiee == true));
+		and
+		$r2 : Regle(code == "CAC_D_002",(valide == false || verifiee == true));
+		and
+		$r3 : Regle(code == "CAC_D_003",(valide == false || verifiee == true));
+		and
+		$r4 : Regle(code == "CAC_D_004",(valide == false || verifiee == true));
+		and
+		$r5 : Regle(code == "CAC_D_006",(valide == false || verifiee == true));
+		and
+		$r6 : Regle(code == "CAC_D_013",(valide == false || verifiee == true));
+		and
+		$r7 : Regle(code == "CAC_D_014",(valide == false || verifiee == true));
+		and
+		$r8 : Regle(code == "CAC_D_015",(valide == false || verifiee == true));
+		and
+		$r9 : Regle(code == "CAC_D_019",(valide == false || verifiee == true));
+		and
+		$r10 : Regle(code == "CAC_D_020",(valide == false || verifiee == true));
+		and
+		$r11 : Regle(code == "CAC_D_021",(valide == false || verifiee == true));
+		and
+		$r12 : Regle(code == "CAC_D_022",(valide == false || verifiee == true));
+		and
+		$r13 : Regle(code == "CAC_D_024",(valide == false || verifiee == true));
+		and
+		$r14 : Regle(code == "CAC_D_031",(valide == false || verifiee == true));
+		and
+		$r15 : Regle(code == "CAC_D_034",(valide == false || verifiee == true));
+		and
+		$r16 : Regle(code == "CAC_C_002",(valide == false || verifiee == true));
+		and
+		$r17 : Regle(code == "CAC_C_003", valide == true);	
+		and	
+		$resultat : Resultat();
+	then
+		
+		$resultat.setVerifiee(true);
+		update($resultat);		
+end
+
+
+#generated from Decision Table
+#From row number: 10
+rule "AMP_D_014"
+	
+	when
+		$regle : Regle(code=="AMP_D_014", valide==true, verifiee==false)
+		$agent : AgentFait(statut == "TITU1")
+		$ret : Resultat(population == null)
+	then
+		$ret.setPopulation("TITULAIRE");
+ update($ret);
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 11
+rule "AMP_S_002"
+	
+	when
+		$regle : Regle(code=="AMP_S_002", valide==true, verifiee==false)
+		$agent : AgentFait(statut == "STAGI")
+		$ret : Resultat(population == null)
+	then
+		$ret.setPopulation("STAGIAIRE");
+ update($ret);
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 12
+rule "AMP_D_001_1"
+	
+	when
+		$regle : Regle(code=="AMP_D_001", valide==true, verifiee==false)
+		$ret : Resultat(population == "TITULAIRE")
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 13
+rule "AMP_D_001_2"
+	
+	when
+		$regle : Regle(code=="AMP_D_001", valide==true, verifiee==false)
+		$ret : Resultat(population == "STAGIAIRE")
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 14
+rule "AMP_D_015"
+	
+	when
+		$regle : Regle(code=="AMP_D_015", valide==true, verifiee==false)
+		$ret : Resultat(population == "STAGIAIRE")
+		$agent : AgentFait() 
+$congeAbsence : CongeAbsenceFait(dureeGestion <= 1800)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 15
+rule "AMP_D_017_1"
+	
+	when
+		$regle : Regle(code=="AMP_D_017", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "AMP_D_001",(valide == false || verifiee == true))
+		$agent : AgentFait(positionCouranteEnActivite == true)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 16
+rule "AMP_D_017_2"
+	
+	when
+		$regle : Regle(code=="AMP_D_017", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "AMP_D_001",(valide == false || verifiee == true))
+		$agent : AgentFait(positionCourante in ("MAD00","MAD10", "MAD11", "MAD12", "MAD13", "MAD15", "MAD17", "MAD50", "MAD51", "MAD52", "MAD53","MAD55", "MAD57", "MAD60", "MAD61"))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 17
+rule "AMP_D_019"
+	
+	when
+		$regle : Regle(code=="AMP_D_019", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "AMP_D_001",(valide == false || verifiee == true))
+		$agent : AgentFait() 
+$congeAbsence : CongeAbsenceFait(type in ("CM003", "CM004"))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 18
+rule "AMP_C_002"
+	
+	when
+		$regle : Regle(code=="AMP_C_002", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "AMP_D_001",(valide == false || verifiee == true))
+		$agent : AgentFait() 
+$congeAbsence : CongeAbsenceFait(dateDebut != null, (dateFinReelle == null || eval( DateUtil.beforeIncludePrecisionJour(dateDebut,dateFinReelle))))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 19
+rule "AMP_C_003"
+	
+	when
+		$regle : Regle(code=="AMP_C_003", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "AMP_D_001",(valide == false || verifiee == true))
+		$agent : AgentFait() 
+$congeAbsence : CongeAbsenceFait(eval($agent.getDateLimiteDepartRetraite() != null) , (dateFinReelle == null || eval(DateUtil.beforeIncludePrecisionJour(dateFinReelle,$agent.getDateLimiteDepartRetraite()))))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 20
+rule "AMP_C_004"
+	
+	when
+		$regle : Regle(code=="AMP_C_004", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "AMP_D_001",(valide == false || verifiee == true))
+		$agent : AgentFait() 
+$congeAbsence : CongeAbsenceFait(dateFinPeriodePrecedente != null, dateDebutPeriodeProlongation != null, eval( DateUtil.beforePrecisionJour(dateFinPeriodePrecedente,dateDebutPeriodeProlongation)))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+
+
+#generated from Decision Table
+#From row number: 10
+rule "CBO_D_001"
+	
+	when
+		$regle : Regle(code=="CBO_D_001", valide==true, verifiee==false)
+		$agent : AgentFait(statut == "TITU1")
+		$ret : Resultat(population == null)
+	then
+		$ret.setPopulation("TITULAIRE");
+ update($ret);
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 11
+rule "CBO_D_034"
+	
+	when
+		$regle : Regle(code=="CBO_D_034", valide==true, verifiee==false)
+		$ret : Resultat(population == "TITULAIRE")
+		$agent : AgentFait() 
+$congeAbsence : CongeAbsenceFait(dureeGestion <= 65)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 12
+rule "CBO_S_050_1"
+	
+	when
+		$regle : Regle(code=="CBO_S_050", valide==true, verifiee==false)
+		$ret : Resultat(population == "TITULAIRE")
+		$agent : AgentFait() 
+$congeAbsence : CongeAbsenceFait(dateFinReelleCongePrecedent == null)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 13
+rule "CBO_S_050_2"
+	
+	when
+		$regle : Regle(code=="CBO_S_050", valide==true, verifiee==false)
+		$ret : Resultat(population == "TITULAIRE")
+		$agent : AgentFait() 
+$congeAbsence : CongeAbsenceFait(dateDebut != null, dateFinReelleCongePrecedent != null, eval( DateUtils.getDureeJoursCalendaireEnFloat(dateFinReelleCongePrecedent,dateDebut) >= 366))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 14
+rule "CBO_S_051_1"
+	
+	when
+		$regle : Regle(code=="CBO_S_051", valide==true, verifiee==false)
+		$ret : Resultat(population == "TITULAIRE")
+		$agent : AgentFait() 
+$congeAbsence : CongeAbsenceFait(dateDebutCongeSuivant == null)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 15
+rule "CBO_S_051_2"
+	
+	when
+		$regle : Regle(code=="CBO_S_051", valide==true, verifiee==false)
+		$ret : Resultat(population == "TITULAIRE")
+		$agent : AgentFait() 
+$congeAbsence : CongeAbsenceFait(dateFinReelle != null, dateDebutCongeSuivant != null, eval( DateUtils.getDureeJoursCalendaireEnFloat(dateFinReelle,dateDebutCongeSuivant) >= 366))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 16
+rule "CBO_D_050"
+	
+	when
+		$regle : Regle(code=="CBO_D_050", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CBO_S_050",(valide == false || verifiee == true))
+		$regleIntermediaire2 : Regle(code == "CBO_S_051",(valide == false || verifiee == true))
+		$ret : Resultat(population == "TITULAIRE")
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 17
+rule "CBO_C_001"
+	
+	when
+		$regle : Regle(code=="CBO_C_001", valide==true, verifiee==false)
+		$agent : AgentFait(positionCouranteEnActivite == true)
+		$ret : Resultat(population == "TITULAIRE")
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 18
+rule "CBO_C_003"
+	
+	when
+		$regle : Regle(code=="CBO_C_003", valide==true, verifiee==false)
+		$ret : Resultat(population == "TITULAIRE")
+		$agent : AgentFait() 
+$congeAbsence : CongeAbsenceFait(dateDebut != null, dateFinReelle != null, eval( DateUtil.beforeIncludePrecisionJour(dateDebut,dateFinReelle)))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 19
+rule "CBO_C_005"
+	
+	when
+		$regle : Regle(code=="CBO_C_005", valide==true, verifiee==false)
+		$ret : Resultat(population == "TITULAIRE")
+		$agent : AgentFait() 
+$congeAbsence : CongeAbsenceFait(dateDebut != null, dateDebutSejour != null, dateFinSejour != null,eval( DateUtils.getDureeJoursCalendaireEnFloat(dateDebutSejour,dateFinSejour) <= DateUtils.getDureeJoursCalendaireEnFloat(dateDebut,dateFinReelle)))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 20
+rule "CBO_C_006"
+	
+	when
+		$regle : Regle(code=="CBO_C_006", valide==true, verifiee==false)
+		$ret : Resultat(population == "TITULAIRE")
+		$agent : AgentFait() 
+$congeAbsence : CongeAbsenceFait(dateFinReelle != null, eval($agent.getDateLimiteDepartRetraite() != null) ,eval(DateUtil.beforeIncludePrecisionJour(dateFinReelle,$agent.getDateLimiteDepartRetraite())))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+
+
+
+######################################################################################
+# Regles metiers pour CBO
+######################################################################################
+
+rule "CBO_EVT_demande"
+salience -1
+no-loop 
+	when
+		$r1 : Regle(code == "CBO_D_001",(valide == false || verifiee == true));	
+		$r2 : Regle(code == "CBO_D_034",(valide == false || verifiee == true));
+		$r3 : Regle(code == "CBO_D_050",(valide == false || verifiee == true));		
+		$r4 : Regle(code == "CBO_C_001",(valide == false || verifiee == true));
+		$r5 : Regle(code == "CBO_C_003",(valide == false || verifiee == true));
+		$r6 : Regle(code == "CBO_C_005",(valide == false || verifiee == true));
+		$r7 : Regle(code == "CBO_C_006", valide == true);		
+		$resultat : Resultat();
+	then
+		
+		$resultat.setVerifiee(true);
+		update($resultat);		
+end
+
+
+#generated from Decision Table
+#From row number: 10
+rule "CDP_S_001"
+	
+	when
+		$regle : Regle(code=="CDP_S_001", valide==true, verifiee==false)
+		$agent : AgentFait(statut == "TITU1")
+		$ret : Resultat(population == null)
+	then
+		$ret.setPopulation("TITULAIRE");
+ update($ret);
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 11
+rule "CDP_S_002"
+	
+	when
+		$regle : Regle(code=="CDP_S_002", valide==true, verifiee==false)
+		$agent : AgentFait(statut == "STAGI")
+		$ret : Resultat(population == null)
+	then
+		$ret.setPopulation("STAGIAIRE");
+ update($ret);
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 12
+rule "CDP_D_001_1"
+	
+	when
+		$regle : Regle(code=="CDP_D_001", valide==true, verifiee==false)
+		$ret : Resultat(population == "TITULAIRE")
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 13
+rule "CDP_D_001_2"
+	
+	when
+		$regle : Regle(code=="CDP_D_001", valide==true, verifiee==false)
+		$ret : Resultat(population == "STAGIAIRE")
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 14
+rule "CDP_D_002_1"
+	
+	when
+		$regle : Regle(code=="CDP_D_002", valide==true, verifiee==false)
+		$ret : Resultat(population == "STAGIAIRE")
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 15
+rule "CDP_D_002_2"
+	
+	when
+		$regle : Regle(code=="CDP_D_002", valide==true, verifiee==false)
+		$agent : AgentFait(positionCouranteEnActivite == true)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 16
+rule "CDP_D_002_3"
+	
+	when
+		$regle : Regle(code=="CDP_D_002", valide==true, verifiee==false)
+		$agent : AgentFait(positionCourante in ("MAD00", "MAD10", "MAD11", "MAD12", "MAD13", "MAD15", "MAD17", "MAD50", "MAD51", "MAD52", "MAD53", "MAD55", "MAD57", "MAD60", "MAD61","DEE01","DEE02","DEE03","DEE04","DEE05","DEE06","DEE07","DES01","DES02","DES05","DES06","DES07"))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 17
+rule "CDP_T_001"
+	
+	when
+		$regle : Regle(code=="CDP_T_001", valide==true, verifiee==false)
+		$agent : AgentFait(sexe == "1")
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 18
+rule "CDP_C_004"
+	
+	when
+		$regle : Regle(code=="CDP_C_004", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "CDP_D_001",(valide == false || verifiee == true))
+		$agent : AgentFait() 
+$congeAbsence : CongeAbsenceFait(dateDebut != null, dateFinReelle != null, eval( DateUtil.beforeIncludePrecisionJour(dateDebut,dateFinReelle)))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 19
+rule "CDP_C_005"
+	
+	when
+		$regle : Regle(code=="CDP_C_005", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "CDP_D_001",(valide == false || verifiee == true))
+		$agent : AgentFait() 
+$congeAbsence : CongeAbsenceFait(dateDebut != null, eval($agent.getDateLimiteDepartRetraite() != null) ,eval(DateUtil.beforeIncludePrecisionJour(dateFinReelle,$agent.getDateLimiteDepartRetraite())))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+
+
+#created on: 14 déc. 2010
+######################################################################################
+# Regles metiers pour CDP
+######################################################################################
+
+rule "CDP_EVT_demande"
+salience -1
+no-loop 
+	when
+		$r1 : Regle(code == "CDP_D_001",(valide == false || verifiee == true));	
+		$r3 : Regle(code == "CDP_T_001",(valide == false || verifiee == true));
+		$r2 : Regle(code == "CDP_D_002",(valide == false || verifiee == true));
+		$r4 : Regle(code == "CDP_C_004",(valide == false || verifiee == true));
+		$r5 : Regle(code == "CDP_C_005", valide == true);		
+		$resultat : Resultat();
+	then
+		
+		$resultat.setVerifiee(true);
+		update($resultat);		
+end
+
+
+#generated from Decision Table
+#From row number: 10
+rule "CFP_D_001"
+	
+	when
+		$regle : Regle(code=="CFP_D_001", valide==true, verifiee==false)
+		$agent : AgentFait(statut == "TITU1")
+		$ret : Resultat(population == null)
+	then
+		$ret.setPopulation("TITULAIRE");
+ update($ret);
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 11
+rule "CFP_D_003"
+	
+	when
+		$regle : Regle(code=="CFP_D_003", valide==true, verifiee==false)
+		$agent : AgentFait(dureeServiceEffectif >= 1095)
+		$ret : Resultat(population == "TITULAIRE")
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 12
+rule "CFP_D_007"
+	
+	when
+		$regle : Regle(code=="CFP_D_007", valide==true, verifiee==false)
+		$ret : Resultat(population == "TITULAIRE")
+		$agent : AgentFait() 
+$congeAbsence : CongeAbsenceFait(dureeGestionTotale <= 1095)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 13
+rule "CFP_C_002"
+	
+	when
+		$regle : Regle(code=="CFP_C_002", valide==true, verifiee==false)
+		$agent : AgentFait(positionCouranteEnActivite == true)
+		$ret : Resultat(population == "TITULAIRE")
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 14
+rule "CFP_C_007"
+	
+	when
+		$regle : Regle(code=="CFP_C_007", valide==true, verifiee==false)
+		$ret : Resultat(population == "TITULAIRE")
+		$agent : AgentFait() 
+$congeAbsence : CongeAbsenceFait(dateDebut != null, dateFinReelle != null, eval( DateUtil.beforeIncludePrecisionJour(dateDebut,dateFinReelle)))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 15
+rule "CFP_C_008"
+	
+	when
+		$regle : Regle(code=="CFP_C_008", valide==true, verifiee==false)
+		$ret : Resultat(population == "TITULAIRE")
+		$agent : AgentFait() 
+$congeAbsence : CongeAbsenceFait(dateFinReelle != null, eval($agent.getDateLimiteDepartRetraite() != null) ,eval(DateUtil.beforeIncludePrecisionJour(dateFinReelle,$agent.getDateLimiteDepartRetraite())))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+
+
+#generated from Decision Table
+#From row number: 10
+rule "CFS_S_001"
+	
+	when
+		$regle : Regle(code=="CFS_S_001", valide==true, verifiee==false)
+		$agent : AgentFait(statut == "TITU1")
+		$ret : Resultat(population == null)
+	then
+		$ret.setPopulation("TITULAIRE");
+ update($ret);
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 11
+rule "CFS_S_002"
+	
+	when
+		$regle : Regle(code=="CFS_S_002", valide==true, verifiee==false)
+		$agent : AgentFait(statut == "STAGI")
+		$ret : Resultat(population == null)
+	then
+		$ret.setPopulation("STAGIAIRE");
+ update($ret);
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 12
+rule "CFS_D_001"
+	
+	when
+		$regle : Regle(code=="CFS_D_001", valide==true, verifiee==false)
+		$agent : AgentFait(positionCouranteEnActivite == true)
+		$ret : Resultat(population == "TITULAIRE")
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 13
+rule "CFS_D_002"
+	
+	when
+		$regle : Regle(code=="CFS_D_002", valide==true, verifiee==false)
+		$agent : AgentFait() 
+$congeAbsence : CongeAbsenceFait(dureeTotaleCongeCFSParAn <= 12)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 14
+rule "CFS_C_003"
+	
+	when
+		$regle : Regle(code=="CFS_C_003", valide==true, verifiee==false)
+		$agent : AgentFait() 
+$congeAbsence : CongeAbsenceFait(dateFinReelle != null, eval( DateUtil.beforeIncludePrecisionJour(dateDebut,dateFinReelle)))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 15
+rule "CFS_C_004"
+	
+	when
+		$regle : Regle(code=="CFS_C_004", valide==true, verifiee==false)
+		$agent : AgentFait() 
+$congeAbsence : CongeAbsenceFait(dateFinReelle != null, eval($agent.getDateLimiteDepartRetraite() != null) ,eval(DateUtil.beforeIncludePrecisionJour(dateFinReelle,$agent.getDateLimiteDepartRetraite())))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+
+
+#created on: 15 déc. 2010
+######################################################################################
+# Regles metiers pour CFS
+######################################################################################
+
+rule "CFS_EVT_demande"
+salience -1
+no-loop 
+	when
+		$r1 : Regle(code == "CFS_D_001",(valide == false || verifiee == true));	
+		$r2 : Regle(code == "CFS_D_002",(valide == false || verifiee == true));
+		$r3 : Regle(code == "CFS_C_003",(valide == false || verifiee == true));			
+		$r4 : Regle(code == "CFS_C_004", valide == true);		
+		$resultat : Resultat();
+	then
+		
+		$resultat.setVerifiee(true);
+		update($resultat);		
+end
+
+
+#generated from Decision Table
+#From row number: 10
+rule "CPP_D_002"
+	
+	when
+		$regle : Regle(code=="CPP_D_002", valide==true, verifiee==false)
+		$agent : AgentFait(statut == "TITU1")
+		$ret : Resultat(population == null)
+	then
+		$ret.setPopulation("TITULAIRE");
+ update($ret);
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 11
+rule "CPP_D_003"
+	
+	when
+		$regle : Regle(code=="CPP_D_003", valide==true, verifiee==false)
+		$agent : AgentFait(statut == "STAGI")
+		$ret : Resultat(population == null)
+	then
+		$ret.setPopulation("STAGIAIRE");
+ update($ret);
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 12
+rule "CPP_S_001_1"
+	
+	when
+		$regle : Regle(code=="CPP_S_001", valide==true, verifiee==false)
+		$ret : Resultat(population == "TITULAIRE")
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 13
+rule "CPP_S_001_2"
+	
+	when
+		$regle : Regle(code=="CPP_S_001", valide==true, verifiee==false)
+		$ret : Resultat(population == "STAGIAIRE")
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 14
+rule "CPP_D_001_1"
+	
+	when
+		$regle : Regle(code=="CPP_D_001", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "CPP_S_001",(valide == false || verifiee == true))
+		$agent : AgentFait(positionCouranteEnActivite == true)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 15
+rule "CPP_D_001_2"
+	
+	when
+		$regle : Regle(code=="CPP_D_001", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "CPP_S_001",(valide == false || verifiee == true))
+		$agent : AgentFait(positionCourante in ("MAD00", "MAD10", "MAD11", "MAD12", "MAD13", "MAD15", "MAD17", "MAD50", "MAD51", "MAD52", "MAD53", "MAD55", "MAD57", "MAD60", "MAD61","DEE01","DEE02","DEE03","DEE04","DEE05","DEE06","DEE07","DES01","DES02","DES05","DES06","DES07"))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 16
+rule "CPP_D_005"
+	
+	when
+		$regle : Regle(code=="CPP_D_005", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "CPP_S_001",(valide == false || verifiee == true))
+		$agent : AgentFait(indicateurSFTenfantACharge == true)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 17
+rule "CPP_D_009"
+	
+	when
+		$regle : Regle(code=="CPP_D_009", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "CPP_S_001",(valide == false || verifiee == true))
+		$agent : AgentFait() 
+$congeAbsence : CongeAbsenceFait(dureeGestionParEnfant <= 310)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 18
+rule "CPP_D_025"
+	
+	when
+		$regle : Regle(code=="CPP_D_025", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "CPP_D_009",(valide == false || verifiee == true))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 19
+rule "CPP_C_003"
+	
+	when
+		$regle : Regle(code=="CPP_C_003", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "CPP_S_001",(valide == false || verifiee == true))
+		$agent : AgentFait() 
+$congeAbsence : CongeAbsenceFait(dateDebut != null, dateFinReelle != null, eval( DateUtil.beforeIncludePrecisionJour(dateDebut,dateFinReelle)))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 20
+rule "CPP_C_004"
+	
+	when
+		$regle : Regle(code=="CPP_C_004", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "CPP_S_001",(valide == false || verifiee == true))
+		$agent : AgentFait() 
+$congeAbsence : CongeAbsenceFait(eval($agent.getDateLimiteDepartRetraite() != null) , (dateFinReelle == null || eval(DateUtil.beforeIncludePrecisionJour(dateFinReelle,$agent.getDateLimiteDepartRetraite()))))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 21
+rule "CPP_C_006"
+	
+	when
+		$regle : Regle(code=="CPP_C_006", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "CPP_S_001",(valide == false || verifiee == true))
+		$agent : AgentFait() 
+$congeAbsence : CongeAbsenceFait(dateFinPeriodePrecedente != null, dateDebutPeriodeProlongation != null, eval( DateUtil.beforePrecisionJour(dateFinPeriodePrecedente,dateDebutPeriodeProlongation)))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+
+
+
+#created on: 16 déc. 2010
+######################################################################################
+# Regles metiers pour CPP
+######################################################################################
+
+rule "CPP_EVT_dmd_initiale"
+salience -1
+no-loop 
+	when			
+		$r1 : Regle(code == "CPP_S_001", (valide == false || verifiee == true));		
+		$r2 : Regle(code == "CPP_D_001",(valide == false || verifiee == true));			
+		$r3 : Regle(code == "CPP_D_005",(valide == false || verifiee == true));		
+		$r4 : Regle(code == "CPP_D_009", valide == true);			
+		$r5 : Regle(code == "CPP_C_003", valide == true);		
+		$r6 : Regle(code == "CPP_C_004", valide == true);		
+		$resultat : Resultat();	
+	then		
+		$resultat.setVerifiee(true);
+		update($resultat);	
+end
+
+rule "CPP_EVT_dmd_init_reprise"
+salience -1
+no-loop 
+	when
+		$r1 : Regle(code == "CPP_S_001", (valide == false || verifiee == true));		
+		$r2 : Regle(code == "CPP_D_001",(valide == false || verifiee == true));			
+		$r3 : Regle(code == "CPP_D_005",(valide == false || verifiee == true));		
+		$r4 : Regle(code == "CPP_D_009", valide == true);			
+		$r5 : Regle(code == "CPP_C_003", valide == true);		
+		$r6 : Regle(code == "CPP_C_004", valide == true);		
+		$resultat : Resultat();	
+	then		
+		$resultat.setVerifiee(true);
+		update($resultat);			
+end
+
+rule "CPP_EVT_dmd_prolong"
+salience -1
+no-loop 
+	when
+		$r1 : Regle(code == "CPP_S_001", (valide == false || verifiee == true));	
+		$r2 : Regle(code == "CPP_D_025", valide == true);	
+		$r3 : Regle(code == "CPP_C_006", valide == true);		
+		$resultat : Resultat();
+	then
+		
+		$resultat.setVerifiee(true);
+		update($resultat);		
+end
+
+rule "CPP_EVT_dmd_pro_reprise"
+salience -1
+no-loop 
+	when
+		$r1 : Regle(code == "CPP_S_001", (valide == false || verifiee == true));	
+		$r2 : Regle(code == "CPP_D_025",valide == true);	
+		$r3 : Regle(code == "CPP_C_006", valide == true);	
+		$resultat : Resultat();
+	then
+		
+		$resultat.setVerifiee(true);
+		update($resultat);		
+end
+
+#generated from Decision Table
+#From row number: 10
+rule "CLD_D_001"
+	
+	when
+		$regle : Regle(code=="CLD_D_001", valide==true, verifiee==false)
+		$agent : AgentFait(statut == "TITU1")
+		$ret : Resultat(population == null)
+	then
+		$ret.setPopulation("TITULAIRE");
+ update($ret);
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 11
+rule "CLD_D_002"
+	
+	when
+		$regle : Regle(code=="CLD_D_002", valide==true, verifiee==false)
+		$agent : AgentFait(statut == "STAGI")
+		$ret : Resultat(population == null)
+	then
+		$ret.setPopulation("STAGIAIRE");
+ update($ret);
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 12
+rule "CLD_S_001_1"
+	
+	when
+		$regle : Regle(code=="CLD_S_001", valide==true, verifiee==false)
+		$ret : Resultat(population == "TITULAIRE")
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 13
+rule "CLD_S_001_2"
+	
+	when
+		$regle : Regle(code=="CLD_S_001", valide==true, verifiee==false)
+		$ret : Resultat(population == "STAGIAIRE")
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 14
+rule "CLD_S_004_1"
+	
+	when
+		$regle : Regle(code=="CLD_S_004", valide==true, verifiee==false)
+		$agent : AgentFait(positionCourante in ("MAD00", "MAD10", "MAD11", "MAD12", "MAD13", "MAD15", "MAD17", "MAD50", "MAD51", "MAD52", "MAD53", "MAD55", "MAD57", "MAD60", "MAD61","DEE01","DEE02","DEE03","DEE04","DEE05","DEE06","DEE07","DES01","DES02","DES05","DES06","DES07"))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 15
+rule "CLD_S_004_2"
+	
+	when
+		$regle : Regle(code=="CLD_S_004", valide==true, verifiee==false)
+		$agent : AgentFait(positionCouranteEnActivite == true)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 16
+rule "CLD_D_004_1"
+	
+	when
+		$regle : Regle(code=="CLD_D_004", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CLD_S_001",(valide == false || verifiee == true))
+		$agent : AgentFait(typeAdresseProfessionnelle != "ADG")
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 17
+rule "CLD_D_004_2"
+	
+	when
+		$regle : Regle(code=="CLD_D_004", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CLD_S_001",(valide == false || verifiee == true))
+		$agent : AgentFait(pays != "FRA")
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 18
+rule "CLD_D_004_3"
+	
+	when
+		$regle : Regle(code=="CLD_D_004", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CLD_S_001",(valide == false || verifiee == true))
+		$regleIntermediaire2 : Regle(code == "CLD_S_004",(valide == false || verifiee == true))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 19
+rule "CLD_D_005_1"
+	
+	when
+		$regle : Regle(code=="CLD_D_005", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CLD_S_001",(valide == false || verifiee == true))
+		$agent : AgentFait(typeAdresseProfessionnelle != "ADG")
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 20
+rule "CLD_D_005_2"
+	
+	when
+		$regle : Regle(code=="CLD_D_005", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CLD_S_001",(valide == false || verifiee == true))
+		$agent : AgentFait(pays == "FRA")
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 21
+rule "CLD_D_005_3"
+	
+	when
+		$regle : Regle(code=="CLD_D_005", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CLD_S_001",(valide == false || verifiee == true))
+		$agent : AgentFait(positionCouranteEnActivite == true)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 22
+rule "CLD_D_007_1"
+	
+	when
+		$regle : Regle(code=="CLD_D_007", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CLD_S_001",(valide == false || verifiee == true))
+		$agent : AgentFait() 
+$congeAbsence : CongeAbsenceFait(imputableAuService == true)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 23
+rule "CLD_D_007_2"
+	
+	when
+		$regle : Regle(code=="CLD_D_007", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CLD_S_001",(valide == false || verifiee == true))
+		$agent : AgentFait() 
+$congeAbsence : CongeAbsenceFait(dureeGestion <= 1800)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 24
+rule "CLD_D_008_1"
+	
+	when
+		$regle : Regle(code=="CLD_D_008", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CLD_S_001",(valide == false || verifiee == true))
+		$agent : AgentFait() 
+$congeAbsence : CongeAbsenceFait(imputableAuService == false)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 25
+rule "CLD_D_008_2"
+	
+	when
+		$regle : Regle(code=="CLD_D_008", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CLD_S_001",(valide == false || verifiee == true))
+		$agent : AgentFait() 
+$congeAbsence : CongeAbsenceFait(dureeGestion <= 2880)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 26
+rule "CLD_D_016"
+	
+	when
+		$regle : Regle(code=="CLD_D_016", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CLD_S_001",(valide == false || verifiee == true))
+		$agent : AgentFait() 
+$congeAbsence : CongeAbsenceFait(dureeNouvellePeriode >=90, dureeNouvellePeriode <=180)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 27
+rule "CLD_C_002"
+	
+	when
+		$regle : Regle(code=="CLD_C_002", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CLD_S_001",(valide == false || verifiee == true))
+		$agent : AgentFait() 
+$congeAbsence : CongeAbsenceFait(dateDebut != null, dateFinDernierePeriodeConge != null, eval( DateUtil.beforeIncludePrecisionJour(dateDebut,dateFinDernierePeriodeConge)))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 28
+rule "CLD_C_003"
+	
+	when
+		$regle : Regle(code=="CLD_C_003", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CLD_S_001",(valide == false || verifiee == true))
+		$agent : AgentFait() 
+$congeAbsence : CongeAbsenceFait(dateFinReelle != null, eval($agent.getDateLimiteDepartRetraite() != null) ,eval(DateUtil.beforeIncludePrecisionJour(dateFinReelle,$agent.getDateLimiteDepartRetraite())))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 29
+rule "CLD_C_004"
+	
+	when
+		$regle : Regle(code=="CLD_C_004", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CLD_S_001",(valide == false || verifiee == true))
+		$agent : AgentFait() 
+$congeAbsence : CongeAbsenceFait(dateFinPeriodePrecedente != null, dateDebutPeriodeProlongation != null, eval( DateUtil.beforePrecisionJour(dateFinPeriodePrecedente,dateDebutPeriodeProlongation)))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 30
+rule "CLD_C_005"
+	
+	when
+		$regle : Regle(code=="CLD_C_005", valide==true, verifiee==false)
+		$regleIntermediaire1 : Regle(code == "CLD_S_001",(valide == false || verifiee == true))
+		$agent : AgentFait() 
+$congeAbsence : CongeAbsenceFait(dateDebut != null, dateFinReelle != null, eval( DateUtil.beforeIncludePrecisionJour(dateDebut,dateFinReelle)))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+
+
+#created on: 16 déc. 2010
+######################################################################################
+# Regles metiers pour CLD
+######################################################################################
+
+rule "CLD_EVT_dmd_initiale"
+salience -1
+no-loop 
+	when			
+		$r1 : Regle(code == "CLD_S_001", (valide == false || verifiee == true));
+		and		
+		$r2 : Regle(code == "CLD_D_004",(valide == false || verifiee == true));	
+		and		
+		$r3 : Regle(code == "CLD_D_005",(valide == false || verifiee == true));
+		and		
+		$r4 : Regle(code == "CLD_D_007",(valide == false || verifiee == true));
+		and		
+		$r5 : Regle(code == "CLD_D_008",(valide == false || verifiee == true));
+		and		
+		$r6 : Regle(code == "CLD_C_002",(valide == false || verifiee == true));
+		and		
+		$r7 : Regle(code == "CLD_C_003", valide == true);
+		and		
+		$resultat : Resultat();	
+	then		
+		$resultat.setVerifiee(true);
+		update($resultat);	
+		
+end
+
+rule "CLD_EVT_dmd_init_reprise"
+salience -1
+no-loop 
+	when			
+		$r1 : Regle(code == "CLD_S_001", (valide == false || verifiee == true));
+		and		
+		$r2 : Regle(code == "CLD_D_004",(valide == false || verifiee == true));	
+		and		
+		$r3 : Regle(code == "CLD_D_005",(valide == false || verifiee == true));
+		and		
+		$r4 : Regle(code == "CLD_D_007",(valide == false || verifiee == true));
+		and		
+		$r5 : Regle(code == "CLD_D_008",(valide == false || verifiee == true));
+		and		
+		$r6 : Regle(code == "CLD_C_002",(valide == false || verifiee == true));
+		and		
+		$r7 : Regle(code == "CLD_C_003", valide == true);
+		and
+		$r8 : Regle(code == "CLD_C_005",(valide == false || verifiee == true));
+		and		
+		$resultat : Resultat();	
+	then		
+		$resultat.setVerifiee(true);
+		update($resultat);			
+end
+
+rule "CLD_EVT_dmd_prolong"
+salience -1
+no-loop 
+	when			
+		$r1 : Regle(code == "CLD_S_001", (valide == false || verifiee == true));
+		and		
+		$r2 : Regle(code == "CLD_D_004",(valide == false || verifiee == true));	
+		and		
+		$r3 : Regle(code == "CLD_D_005",(valide == false || verifiee == true));
+		and		
+		$r4 : Regle(code == "CLD_D_007",(valide == false || verifiee == true));
+		and		
+		$r5 : Regle(code == "CLD_D_008",(valide == false || verifiee == true));
+		and		
+		$r6 : Regle(code == "CLD_D_016",valide == true);
+		and
+		$r7 : Regle(code == "CLD_C_002",(valide == false || verifiee == true));
+		and		
+		$r8 : Regle(code == "CLD_C_003", valide == true);
+		and
+		$r9 : Regle(code == "CLD_C_004",(valide == false || verifiee == true));
+		and		
+		$resultat : Resultat();	
+	then		
+		$resultat.setVerifiee(true);
+		update($resultat);	
+	
+end
+
+rule "CLD_EVT_dmd_pro_reprise"
+salience -1
+no-loop 
+	when			
+		$r1 : Regle(code == "CLD_S_001", (valide == false || verifiee == true));
+		and		
+		$r2 : Regle(code == "CLD_D_004",(valide == false || verifiee == true));	
+		and		
+		$r3 : Regle(code == "CLD_D_005",(valide == false || verifiee == true));
+		and		
+		$r4 : Regle(code == "CLD_D_007",(valide == false || verifiee == true));
+		and		
+		$r5 : Regle(code == "CLD_D_008",(valide == false || verifiee == true));
+		and		
+		$r6 : Regle(code == "CLD_D_016",valide == true);
+		and
+		$r7 : Regle(code == "CLD_C_002",(valide == false || verifiee == true));
+		and		
+		$r8 : Regle(code == "CLD_C_003", valide == true);
+		and
+		$r9 : Regle(code == "CLD_C_004",(valide == false || verifiee == true));
+		and
+		$r10 : Regle(code == "CLD_C_005",(valide == false || verifiee == true));
+		and		
+		$resultat : Resultat();	
+	then		
+		$resultat.setVerifiee(true);
+		update($resultat);	
+	
+end
+
+#generated from Decision Table
+#From row number: 10
+rule "CLM_D_001"
+	
+	when
+		$regle : Regle(code=="CLM_D_001", valide==true, verifiee==false)
+		$agent : AgentFait(statut == "TITU1")
+		$ret : Resultat(population == null)
+	then
+		$ret.setPopulation("TITULAIRE");
+ update($ret);
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 11
+rule "CLM_D_002"
+	
+	when
+		$regle : Regle(code=="CLM_D_002", valide==true, verifiee==false)
+		$agent : AgentFait(statut == "STAGI")
+		$ret : Resultat(population == null)
+	then
+		$ret.setPopulation("STAGIAIRE");
+ update($ret);
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 12
+rule "CLM_S_001_1"
+	
+	when
+		$regle : Regle(code=="CLM_S_001", valide==true, verifiee==false)
+		$ret : Resultat(population == "TITULAIRE")
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 13
+rule "CLM_S_001_2"
+	
+	when
+		$regle : Regle(code=="CLM_S_001", valide==true, verifiee==false)
+		$ret : Resultat(population == "STAGIAIRE")
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 14
+rule "CLM_D_004_1"
+	
+	when
+		$regle : Regle(code=="CLM_D_004", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "CLM_S_001",(valide == false || verifiee == true))
+		$agent : AgentFait(positionCouranteEnActivite == true, typeAdresseProfessionnelle == "ADG", pays == "FRA")
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 15
+rule "CLM_D_004_2"
+	
+	when
+		$regle : Regle(code=="CLM_D_004", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "CLM_S_001",(valide == false || verifiee == true))
+		$agent : AgentFait(positionCourante in ("MAD00", "MAD10", "MAD11", "MAD12", "MAD13", "MAD15", "MAD17", "MAD50", "MAD51", "MAD52", "MAD53", "MAD55", "MAD57", "MAD60", "MAD61","DEE01","DEE02","DEE03","DEE04","DEE05","DEE06","DEE07","DES01","DES02","DES05","DES06","DES07"), typeAdresseProfessionnelle == "ADG", pays == "FRA")
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 16
+rule "CLM_D_005"
+	
+	when
+		$regle : Regle(code=="CLM_D_005", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "CLM_S_001",(valide == false || verifiee == true))
+		$agent : AgentFait(positionCouranteEnActivite == true, typeAdresseProfessionnelle == "ADG", pays != "FRA")
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 17
+rule "CLM_D_013"
+	
+	when
+		$regle : Regle(code=="CLM_D_013", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "CLM_S_001",(valide == false || verifiee == true))
+		$agent : AgentFait() 
+$congeAbsence : CongeAbsenceFait(dureeNouvellePeriode >=90, dureeNouvellePeriode <=180)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 18
+rule "CLM_D_019"
+	
+	when
+		$regle : Regle(code=="CLM_D_019", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "CLM_D_013",(valide == false || verifiee == true))
+		$agent : AgentFait() 
+$congeAbsence : CongeAbsenceFait(dureeGestion <= 2800, imputableAuService == true)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 19
+rule "CLM_C_002"
+	
+	when
+		$regle : Regle(code=="CLM_C_002", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "CLM_S_001",(valide == false || verifiee == true))
+		$agent : AgentFait() 
+$congeAbsence : CongeAbsenceFait(dateDebut != null, dateFinDernierePeriodeConge != null, eval( DateUtil.beforeIncludePrecisionJour(dateDebut,dateFinDernierePeriodeConge)))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 20
+rule "CLM_C_003"
+	
+	when
+		$regle : Regle(code=="CLM_C_003", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "CLM_S_001",(valide == false || verifiee == true))
+		$agent : AgentFait() 
+$congeAbsence : CongeAbsenceFait(dateFinReelle != null, eval($agent.getDateLimiteDepartRetraite() != null) ,eval(DateUtil.beforeIncludePrecisionJour(dateFinReelle,$agent.getDateLimiteDepartRetraite())))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 21
+rule "CLM_C_004"
+	
+	when
+		$regle : Regle(code=="CLM_C_004", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "CLM_S_001",(valide == false || verifiee == true))
+		$agent : AgentFait() 
+$congeAbsence : CongeAbsenceFait(dateFinPeriodePrecedente != null, dateDebutPeriodeProlongation != null, eval( DateUtil.beforePrecisionJour(dateFinPeriodePrecedente,dateDebutPeriodeProlongation)))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 22
+rule "CLM_C_005"
+	
+	when
+		$regle : Regle(code=="CLM_C_005", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "CLM_S_001",(valide == false || verifiee == true))
+		$agent : AgentFait() 
+$congeAbsence : CongeAbsenceFait(dateDebut != null, dateFinReelle != null, eval( DateUtil.beforeIncludePrecisionJour(dateDebut,dateFinReelle)))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+
+
+#created on: 16 déc. 2010
+######################################################################################
+# Regles metiers pour CLM
+######################################################################################
+
+rule "CLM_EVT_dmd_initiale"
+salience -1
+no-loop 
+	when			
+		$r1 : Regle(code == "CLM_S_001", (valide == false || verifiee == true));
+		and(		
+		$r2 : Regle(code == "CLM_D_004",(valide == false || verifiee == true));	
+		or		
+		$r3 : Regle(code == "CLM_D_005",(valide == false || verifiee == true));)
+		and		
+		$r4 : Regle(code == "CLM_D_013", valide == true);		
+		and	
+		$r5 : Regle(code == "CLM_C_002",(valide == false || verifiee == true));
+		and		
+		$r6 : Regle(code == "CLM_C_003", valide == true);
+		and		
+		$resultat : Resultat();	
+	then		
+		$resultat.setVerifiee(true);
+		update($resultat);		
+		
+end
+
+rule "CLM_EVT_dmd_init_reprise"
+salience -1
+no-loop 
+	when			
+		$r1 : Regle(code == "CLM_S_001", (valide == false || verifiee == true));
+		and(		
+		$r2 : Regle(code == "CLM_D_004",(valide == false || verifiee == true));	
+		or		
+		$r3 : Regle(code == "CLM_D_005",(valide == false || verifiee == true));)
+		and		
+		$r4 : Regle(code == "CLM_D_013", valide == true);		
+		and	
+		$r5 : Regle(code == "CLM_C_002",(valide == false || verifiee == true));
+		and		
+		$r6 : Regle(code == "CLM_C_003", valide == true);
+		and
+		$r7 : Regle(code == "CLM_C_005",(valide == false || verifiee == true));
+		and		
+		$resultat : Resultat();	
+	then		
+		$resultat.setVerifiee(true);
+		update($resultat);		
+		
+end
+
+rule "CLM_EVT_dmd_prolong"
+salience -1
+no-loop 
+	when			
+		$r1 : Regle(code == "CLM_S_001", (valide == false || verifiee == true));
+		and(		
+		$r2 : Regle(code == "CLM_D_004",(valide == false || verifiee == true));	
+		or		
+		$r3 : Regle(code == "CLM_D_005",(valide == false || verifiee == true));)
+		and		
+		$r4 : Regle(code == "CLM_D_013", valide == true);	
+		and		
+		$r5 : Regle(code == "CLM_D_019", valide == true);	
+		and	
+		$r6 : Regle(code == "CLM_C_002",(valide == false || verifiee == true));
+		and		
+		$r7 : Regle(code == "CLM_C_003", valide == true);
+		and
+		$r8 : Regle(code == "CLM_C_004",(valide == false || verifiee == true));
+		and		
+		$resultat : Resultat();	
+	then		
+		$resultat.setVerifiee(true);
+		update($resultat);		
+		
+end
+
+rule "CLM_EVT_dmd_pro_reprise"
+salience -1
+no-loop 
+	when			
+		$r1 : Regle(code == "CLM_S_001", (valide == false || verifiee == true));
+		and(		
+		$r2 : Regle(code == "CLM_D_004",(valide == false || verifiee == true));	
+		or		
+		$r3 : Regle(code == "CLM_D_005",(valide == false || verifiee == true));)
+		and		
+		$r4 : Regle(code == "CLM_D_013", valide == true);	
+		and		
+		$r5 : Regle(code == "CLM_D_019", valide == true);	
+		and	
+		$r6 : Regle(code == "CLM_C_002",(valide == false || verifiee == true));
+		and		
+		$r7 : Regle(code == "CLM_C_003", valide == true);
+		and
+		$r8 : Regle(code == "CLM_C_004",(valide == false || verifiee == true));
+		and
+		$r9 : Regle(code == "CLM_C_005",(valide == false || verifiee == true));
+		and		
+		$resultat : Resultat();	
+	then		
+		$resultat.setVerifiee(true);
+		update($resultat);		
+		
+end
+
+#generated from Decision Table
+#From row number: 10
+rule "CMO_D_001"
+	
+	when
+		$regle : Regle(code=="CMO_D_001", valide==true, verifiee==false)
+		$agent : AgentFait(statut == "TITU1")
+		$ret : Resultat(population == null)
+	then
+		$ret.setPopulation("TITULAIRE");
+ update($ret);
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 11
+rule "CMO_D_002"
+	
+	when
+		$regle : Regle(code=="CMO_D_002", valide==true, verifiee==false)
+		$agent : AgentFait(statut == "STAGI")
+		$ret : Resultat(population == null)
+	then
+		$ret.setPopulation("STAGIAIRE");
+ update($ret);
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 12
+rule "CMO_S_001_1"
+	
+	when
+		$regle : Regle(code=="CMO_S_001", valide==true, verifiee==false)
+		$ret : Resultat(population == "TITULAIRE")
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 13
+rule "CMO_S_001_2"
+	
+	when
+		$regle : Regle(code=="CMO_S_001", valide==true, verifiee==false)
+		$ret : Resultat(population == "STAGIAIRE")
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 14
+rule "CMO_D_004_1"
+	
+	when
+		$regle : Regle(code=="CMO_D_004", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "CMO_S_001",(valide == false || verifiee == true))
+		$agent : AgentFait(positionCouranteEnActivite == true)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 15
+rule "CMO_D_004_2"
+	
+	when
+		$regle : Regle(code=="CMO_D_004", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "CMO_S_001",(valide == false || verifiee == true))
+		$agent : AgentFait(positionCourante in ("MAD00", "MAD10", "MAD11", "MAD12", "MAD13", "MAD15", "MAD17", "MAD50", "MAD51", "MAD52", "MAD53", "MAD55", "MAD57", "MAD60", "MAD61","DEE01","DEE02","DEE03","DEE04","DEE05","DEE06","DEE07","DES01","DES02","DES05","DES06","DES07"))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 16
+rule "CMO_D_015"
+	
+	when
+		$regle : Regle(code=="CMO_D_015", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "CMO_S_001",(valide == false || verifiee == true))
+		$agent : AgentFait() 
+$congeAbsence : CongeAbsenceFait(type in ("CM001","CM002"))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 17
+rule "CMO_D_050"
+	
+	when
+		$regle : Regle(code=="CMO_D_050", valide==true, verifiee==false)
+		$ret : Resultat(population == "TITULAIRE")
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 18
+rule "CMO_D_051_1"
+	
+	when
+		$regle : Regle(code=="CMO_D_051", valide==true, verifiee==false)
+		$agent : AgentFait(positionCouranteEnActivite == true)
+		$ret : Resultat(population == "TITULAIRE")
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 19
+rule "CMO_D_051_2"
+	
+	when
+		$regle : Regle(code=="CMO_D_051", valide==true, verifiee==false)
+		$agent : AgentFait(positionCourante in ("MAD00", "MAD10", "MAD11", "MAD12", "MAD13", "MAD15", "MAD17", "MAD50", "MAD51", "MAD52", "MAD53", "MAD55", "MAD57", "MAD60", "MAD61","DEE01","DEE02","DEE03","DEE04","DEE05","DEE06","DEE07","DES01","DES02","DES05","DES06","DES07"))
+		$ret : Resultat(population == "TITULAIRE")
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 20
+rule "CMO_D_056"
+	
+	when
+		$regle : Regle(code=="CMO_D_056", valide==true, verifiee==false)
+		$ret : Resultat(population == "TITULAIRE")
+		$agent : AgentFait() 
+$congeAbsence : CongeAbsenceFait(dureeGestionTotale <= 720)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 21
+rule "CMO_C_003"
+	
+	when
+		$regle : Regle(code=="CMO_C_003", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "CMO_S_001",(valide == false || verifiee == true))
+		$agent : AgentFait() 
+$congeAbsence : CongeAbsenceFait(dateDebut != null, dateFinReelle != null, eval( DateUtil.beforeIncludePrecisionJour(dateDebut,dateFinReelle)))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 22
+rule "CMO_C_005"
+	
+	when
+		$regle : Regle(code=="CMO_C_005", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "CMO_S_001",(valide == false || verifiee == true))
+		$agent : AgentFait() 
+$congeAbsence : CongeAbsenceFait(dateFinReelle != null, eval($agent.getDateLimiteDepartRetraite() != null) ,eval(DateUtil.beforeIncludePrecisionJour(dateFinReelle,$agent.getDateLimiteDepartRetraite())))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 23
+rule "CMO_C_006"
+	
+	when
+		$regle : Regle(code=="CMO_C_006", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "CMO_S_001",(valide == false || verifiee == true))
+		$agent : AgentFait() 
+$congeAbsence : CongeAbsenceFait(dateFinPeriodePrecedente != null, dateDebutPeriodeProlongation != null, eval( DateUtil.beforePrecisionJour(dateFinPeriodePrecedente,dateDebutPeriodeProlongation)))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+
+
+#created on: 17 déc. 2010
+rule "CMO_D_011"
+	
+	when
+		$regle : Regle(code=="CMO_D_011", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "CMO_S_001",(valide == false || verifiee == true))
+		$agent : AgentFait() 
+        $congeAbsence : CongeAbsenceFait()
+        $total : Number(floatValue <= 360) from accumulate( $n:Number() from $congeAbsence.getListeDureeCongeCMO(),max( $n ) )
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+######################################################################################
+# Regles metiers pour CMO
+######################################################################################
+
+rule "CMO_EVT_dmd_initiale"
+salience -1
+no-loop 
+	when			
+		$r1 : Regle(code == "CMO_S_001", (valide == false || verifiee == true));		
+		$r2 : Regle(code == "CMO_D_004", (valide == false || verifiee == true));			
+		$r3 : Regle(code == "CMO_D_011", valide == true);		
+		$r4 : Regle(code == "CMO_C_003", (valide == false || verifiee == true));	
+		$r5 : Regle(code == "CMO_C_005", valide == true);		
+		$resultat : Resultat();	
+	then		
+		$resultat.setVerifiee(true);
+		update($resultat);	
+end
+
+rule "CMO_EVT_dmd_init_reprise"
+salience -1
+no-loop 
+	when			
+		$r1 : Regle(code == "CMO_S_001", (valide == false || verifiee == true));		
+		$r2 : Regle(code == "CMO_D_004", (valide == false || verifiee == true));			
+		$r3 : Regle(code == "CMO_D_011", valide == true);		
+		$r4 : Regle(code == "CMO_C_003", (valide == false || verifiee == true));	
+		$r5 : Regle(code == "CMO_C_005", valide == true);		
+		$resultat : Resultat();	
+	then		
+		$resultat.setVerifiee(true);
+		update($resultat);	
+end
+
+rule "CMO_EVT_dmd_prolong"
+salience -1
+no-loop 
+	when			
+		$r1 : Regle(code == "CMO_S_001", (valide == false || verifiee == true));		
+		$r2 : Regle(code == "CMO_D_004", (valide == false || verifiee == true));			
+		$r3 : Regle(code == "CMO_D_011", valide == true);
+		$r4 : Regle(code == "CMO_D_015",(valide == false || verifiee == true));		
+		$r5 : Regle(code == "CMO_C_003", (valide == false || verifiee == true));	
+		$r6 : Regle(code == "CMO_C_005", valide == true);		
+		$r7 : Regle(code == "CMO_C_006", (valide == false || verifiee == true));	
+		$resultat : Resultat();	
+	then		
+		$resultat.setVerifiee(true);
+		update($resultat);	
+end
+
+rule "CMO_EVT_dmd_pro_reprise"
+salience -1
+no-loop 
+	when			
+		$r1 : Regle(code == "CMO_S_001", (valide == false || verifiee == true));		
+		$r2 : Regle(code == "CMO_D_004", (valide == false || verifiee == true));			
+		$r3 : Regle(code == "CMO_D_011", valide == true);
+		$r4 : Regle(code == "CMO_D_015",(valide == false || verifiee == true));		
+		$r5 : Regle(code == "CMO_C_003", valide == true);
+		$r6 : Regle(code == "CMO_C_005", valide == true);		
+		$r7 : Regle(code == "CMO_C_006", (valide == false || verifiee == true));	
+		$resultat : Resultat();	
+	then		
+		$resultat.setVerifiee(true);
+		update($resultat);	
+end
+
+rule "CMO_EVT_guerre_dmd_initiale"
+salience -1
+no-loop 
+	when			
+		$r1 : Regle(code == "CMO_D_050", (valide == false || verifiee == true));		
+		$r2 : Regle(code == "CMO_D_051", (valide == false || verifiee == true));			
+		$r3 : Regle(code == "CMO_D_056",(valide == false || verifiee == true));		
+		$resultat : Resultat();	
+	then		
+		$resultat.setVerifiee(true);
+		update($resultat);	
+end
+
+rule "CMO_EVT_guerre_init_reprise"
+salience -1
+no-loop 
+	when			
+		$r1 : Regle(code == "CMO_D_050", (valide == false || verifiee == true));		
+		$r2 : Regle(code == "CMO_D_051", (valide == false || verifiee == true));			
+		$r3 : Regle(code == "CMO_D_056",(valide == false || verifiee == true));		
+		$resultat : Resultat();	
+	then		
+		$resultat.setVerifiee(true);
+		update($resultat);	
+end
+
+rule "CMO_EVT_guerre_dmd_prolong"
+salience -1
+no-loop 
+	when			
+		$r1 : Regle(code == "CMO_D_050", (valide == false || verifiee == true));		
+		$r2 : Regle(code == "CMO_D_051", (valide == false || verifiee == true));			
+		$r3 : Regle(code == "CMO_D_056",(valide == false || verifiee == true));		
+		$resultat : Resultat();	
+	then		
+		$resultat.setVerifiee(true);
+		update($resultat);	
+end
+
+rule "CMO_EVT_guerre_pro_reprise"
+salience -1
+no-loop 
+	when			
+		$r1 : Regle(code == "CMO_D_050", (valide == false || verifiee == true));		
+		$r2 : Regle(code == "CMO_D_051", (valide == false || verifiee == true));			
+		$r3 : Regle(code == "CMO_D_056",(valide == false || verifiee == true));		
+		$resultat : Resultat();	
+	then		
+		$resultat.setVerifiee(true);
+		update($resultat);	
+end
+
+
+#generated from Decision Table
+#From row number: 10
+rule "CRE_D_001"
+	
+	when
+		$regle : Regle(code=="CRE_D_001", valide==true, verifiee==false)
+		$agent : AgentFait(statut == "TITU1")
+		$ret : Resultat(population == null)
+	then
+		$ret.setPopulation("TITULAIRE");
+ update($ret);
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 11
+rule "CRE_D_003"
+	
+	when
+		$regle : Regle(code=="CRE_D_003", valide==true, verifiee==false)
+		$agent : AgentFait(positionCouranteEnActivite == true)
+		$ret : Resultat(population == "TITULAIRE")
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 12
+rule "CRE_D_007"
+	
+	when
+		$regle : Regle(code=="CRE_D_007", valide==true, verifiee==false)
+		$ret : Resultat(population == "TITULAIRE")
+		$agent : AgentFait() 
+$congeAbsence : CongeAbsenceFait(dureeGestion <= 366)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 13
+rule "CRE_C_003"
+	
+	when
+		$regle : Regle(code=="CRE_C_003", valide==true, verifiee==false)
+		$ret : Resultat(population == "TITULAIRE")
+		$agent : AgentFait() 
+$congeAbsence : CongeAbsenceFait(dateDebut != null, dateFinReelle != null, eval( DateUtil.beforeIncludePrecisionJour(dateDebut,dateFinReelle)))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 14
+rule "CRE_C_004"
+	
+	when
+		$regle : Regle(code=="CRE_C_004", valide==true, verifiee==false)
+		$ret : Resultat(population == "TITULAIRE")
+		$agent : AgentFait() 
+$congeAbsence : CongeAbsenceFait(dateFinReelle != null, eval($agent.getDateLimiteDepartRetraite() != null) ,eval(DateUtil.beforeIncludePrecisionJour(dateFinReelle,$agent.getDateLimiteDepartRetraite())))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+
+
+#created on: 17 déc. 2010
+######################################################################################
+# Regles metiers pour CRE
+######################################################################################
+
+rule "CRE_EVT_demande"
+salience -1
+no-loop 
+	when			
+		$r1 : Regle(code == "CRE_D_001", (valide == false || verifiee == true));		
+		$r2 : Regle(code == "CRE_D_003", (valide == false || verifiee == true));			
+		$r3 : Regle(code == "CRE_D_007", (valide == false || verifiee == true));		
+		$r4 : Regle(code == "CRE_C_003", (valide == false || verifiee == true));	
+		$r5 : Regle(code == "CRE_C_004", valide == true);		
+		$resultat : Resultat();	
+	then		
+		$resultat.setVerifiee(true);
+		update($resultat);	
+end
+
+#generated from Decision Table
+#From row number: 10
+rule "MAT_S_001"
+	
+	when
+		$regle : Regle(code=="MAT_S_001", valide==true, verifiee==false)
+		$agent : AgentFait(statut == "TITU1")
+		$ret : Resultat(population == null)
+	then
+		$ret.setPopulation("TITULAIRE");
+ update($ret);
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 11
+rule "MAT_S_002"
+	
+	when
+		$regle : Regle(code=="MAT_S_002", valide==true, verifiee==false)
+		$agent : AgentFait(statut == "STAGI")
+		$ret : Resultat(population == null)
+	then
+		$ret.setPopulation("STAGIAIRE");
+ update($ret);
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 12
+rule "MAT_D_002_1"
+	
+	when
+		$regle : Regle(code=="MAT_D_002", valide==true, verifiee==false)
+		$ret : Resultat(population == "TITULAIRE")
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 13
+rule "MAT_D_002_2"
+	
+	when
+		$regle : Regle(code=="MAT_D_002", valide==true, verifiee==false)
+		$ret : Resultat(population == "STAGIAIRE")
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 14
+rule "MAT_D_003_1"
+	
+	when
+		$regle : Regle(code=="MAT_D_003", valide==true, verifiee==false)
+		$agent : AgentFait(positionCouranteEnActivite == true)
+		$ret : Resultat(population == "TITULAIRE")
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 15
+rule "MAT_D_003_2"
+	
+	when
+		$regle : Regle(code=="MAT_D_003", valide==true, verifiee==false)
+		$agent : AgentFait(positionCourante in ("MAD00", "MAD10", "MAD11", "MAD12", "MAD13", "MAD15", "MAD17", "MAD50", "MAD51", "MAD52", "MAD53", "MAD55", "MAD57", "MAD60", "MAD61","DEE01","DEE02","DEE03","DEE04","DEE05","DEE06","DEE07","DES01","DES02","DES05","DES06","DES07"))
+		$ret : Resultat(population == "TITULAIRE")
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 16
+rule "MAT_D_004_1"
+	
+	when
+		$regle : Regle(code=="MAT_D_004", valide==true, verifiee==false)
+		$agent : AgentFait(positionCouranteEnActivite == true)
+		$ret : Resultat(population == "STAGIAIRE")
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 17
+rule "MAT_D_004_2"
+	
+	when
+		$regle : Regle(code=="MAT_D_004", valide==true, verifiee==false)
+		$agent : AgentFait(positionCourante in ("DES01","DES02","DES05","DES06","DES07"))
+		$ret : Resultat(population == "STAGIAIRE")
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 18
+rule "MAT_D_012_1"
+	
+	when
+		$regle : Regle(code=="MAT_D_012", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "MAT_D_002",(valide == false || verifiee == true))
+		$agent : AgentFait(sexe == "2")
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 19
+rule "MAT_D_012_2"
+	
+	when
+		$regle : Regle(code=="MAT_D_012", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "MAT_D_002",(valide == false || verifiee == true))
+		$agent : AgentFait(sexe == "1", situationFamilliale == "VEU")
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 20
+rule "MAT_D_013"
+	
+	when
+		$regle : Regle(code=="MAT_D_013", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "MAT_D_002",(valide == false || verifiee == true))
+		$agent : AgentFait() 
+$congeAbsence : CongeAbsenceFait(dateDebut != null, datePresumeeAccouchement!= null ,eval( DateUtils.getDureeJoursCalendaireEnFloat(dateDebut,datePresumeeAccouchement) >= 14))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 21
+rule "MAT_D_014_1"
+	
+	when
+		$regle : Regle(code=="MAT_D_014", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "MAT_D_002",(valide == false || verifiee == true))
+		$agent : AgentFait(nombreEnfantPrevu != 1)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 22
+rule "MAT_D_014_2"
+	
+	when
+		$regle : Regle(code=="MAT_D_014", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "MAT_D_002",(valide == false || verifiee == true))
+		$agent : AgentFait(nombreEnfant > 1)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 23
+rule "MAT_D_014_3"
+	
+	when
+		$regle : Regle(code=="MAT_D_014", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "MAT_D_002",(valide == false || verifiee == true))
+		
+$congeAbsence : CongeAbsenceFait(dureeReelle <= 112)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 24
+rule "MAT_D_015_1"
+	
+	when
+		$regle : Regle(code=="MAT_D_015", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "MAT_D_002",(valide == false || verifiee == true))
+		$agent : AgentFait(nombreEnfantPrevu != 1)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 25
+rule "MAT_D_015_2"
+	
+	when
+		$regle : Regle(code=="MAT_D_015", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "MAT_D_002",(valide == false || verifiee == true))
+		$agent : AgentFait(nombreEnfant < 2)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 26
+rule "MAT_D_015_3"
+	
+	when
+		$regle : Regle(code=="MAT_D_015", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "MAT_D_002",(valide == false || verifiee == true))
+		
+$congeAbsence : CongeAbsenceFait(dureeGestion <= 182)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 27
+rule "MAT_D_017_1"
+	
+	when
+		$regle : Regle(code=="MAT_D_017", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "MAT_D_002",(valide == false || verifiee == true))
+		$agent : AgentFait(nombreEnfantPrevu != 2)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 28
+rule "MAT_D_017_2"
+	
+	when
+		$regle : Regle(code=="MAT_D_017", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "MAT_D_002",(valide == false || verifiee == true))
+		
+$congeAbsence : CongeAbsenceFait(dureeGestion <= 238)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 29
+rule "MAT_D_018_1"
+	
+	when
+		$regle : Regle(code=="MAT_D_018", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "MAT_D_002",(valide == false || verifiee == true))
+		$agent : AgentFait(nombreEnfantPrevu <= 2)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 30
+rule "MAT_D_018_2"
+	
+	when
+		$regle : Regle(code=="MAT_D_018", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "MAT_D_002",(valide == false || verifiee == true))
+		
+$congeAbsence : CongeAbsenceFait(dureeGestion <= 322)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 31
+rule "MAT_D_032_1"
+	
+	when
+		$regle : Regle(code=="MAT_D_032", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "MAT_D_002",(valide == false || verifiee == true))
+		
+$congeAbsence : CongeAbsenceFait(type != "CG002")
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 32
+rule "MAT_D_032_2"
+	
+	when
+		$regle : Regle(code=="MAT_D_032", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "MAT_D_002",(valide == false || verifiee == true))
+		
+$congeAbsence : CongeAbsenceFait(dureeTotaleGrossessePatholigique <= 14)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 33
+rule "MAT_D_033_1"
+	
+	when
+		$regle : Regle(code=="MAT_D_033", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "MAT_D_002",(valide == false || verifiee == true))
+		
+$congeAbsence : CongeAbsenceFait(type != "CG003")
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 34
+rule "MAT_D_033_2"
+	
+	when
+		$regle : Regle(code=="MAT_D_033", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "MAT_D_002",(valide == false || verifiee == true))
+		
+$congeAbsence : CongeAbsenceFait(dureeGestion <= 28)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 35
+rule "MAT_C_004"
+	
+	when
+		$regle : Regle(code=="MAT_C_004", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "MAT_D_002",(valide == false || verifiee == true))
+		$agent : AgentFait() 
+$congeAbsence : CongeAbsenceFait(dateDebut != null, (dateFinReelle == null || eval( DateUtil.beforeIncludePrecisionJour(dateDebut,dateFinReelle))), dateFinPrevisionnelle != null,eval( DateUtil.beforeIncludePrecisionJour(dateDebut,dateFinPrevisionnelle)))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 36
+rule "MAT_C_005"
+	
+	when
+		$regle : Regle(code=="MAT_C_005", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "MAT_D_002",(valide == false || verifiee == true))
+		$agent : AgentFait() 
+$congeAbsence : CongeAbsenceFait(dateFinPrevisionnelle != null, eval($agent.getDateLimiteDepartRetraite() != null) ,eval(DateUtil.beforeIncludePrecisionJour(dateFinPrevisionnelle,$agent.getDateLimiteDepartRetraite())), ( dateFinReelle == null || (eval($agent.getDateLimiteDepartRetraite() != null))) , ( dateFinReelle == null ||eval(DateUtil.beforeIncludePrecisionJour(dateFinReelle,$agent.getDateLimiteDepartRetraite()) ) ))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+
+
+
+
+
+######################################################################################
+# Regles metiers pour CFP
+######################################################################################
+
+rule "CFP_EVT_demande_titulaire"
+salience -1
+no-loop 
+	when
+		$resultat : Resultat(population == "TITULAIRE")
+		$r1 : Regle(code == "CFP_D_001",(valide == false || verifiee == true));	
+		$r2 : Regle(code == "CFP_D_003", valide == true);		
+		$r3 : Regle(code == "CFP_D_007", valide == true);		
+		$r4 : Regle(code == "CFP_C_002",(valide == false || verifiee == true));	
+		$r5 : Regle(code == "CFP_C_007",(valide == false || verifiee == true));	
+		$r6 : Regle(code == "CFP_C_008", valide == true);		
+	then
+		
+		$resultat.setVerifiee(true);
+		update($resultat);		
+end
+
+
+
+
+######################################################################################
+# Regles metiers pour AMP
+######################################################################################
+
+rule "AMP_EVT_demande_initiale_titulaire"
+salience -1
+no-loop 
+	when
+		$resultat : Resultat(population == "TITULAIRE")
+		$r1 : Regle(code == "AMP_D_001",(valide == false || verifiee == true));	
+		$r2 : Regle(code == "AMP_D_014",(valide == false || verifiee == true));
+		$r3 : Regle(code == "AMP_D_017",(valide == false || verifiee == true));		
+		$r4 : Regle(code == "AMP_C_002",(valide == false || verifiee == true));
+		$r5 : Regle(code == "AMP_C_003", valide == true);		
+	then
+		
+		$resultat.setVerifiee(true);
+		update($resultat);		
+end
+
+rule "AMP_EVT_demande_initiale_stagiaire"
+salience -1
+no-loop 
+	when
+		$resultat : Resultat(population == "STAGIAIRE")
+		$r1 : Regle(code == "AMP_D_001",(valide == false || verifiee == true));	
+		$r2 : Regle(code == "AMP_D_015",(valide == false || verifiee == true));
+		$r3 : Regle(code == "AMP_D_017",(valide == false || verifiee == true));		
+		$r4 : Regle(code == "AMP_C_002",(valide == false || verifiee == true));
+		$r5 : Regle(code == "AMP_C_003", valide == true);		
+	then
+		
+		$resultat.setVerifiee(true);
+		update($resultat);		
+end
+
+rule "AMP_EVT_demande_prolongation_titulaire"
+salience -1
+no-loop 
+	when
+		$resultat : Resultat(population == "TITULAIRE")
+		$r1 : Regle(code == "AMP_D_001",(valide == false || verifiee == true));	
+		$r2 : Regle(code == "AMP_D_014",(valide == false || verifiee == true));
+		$r3 : Regle(code == "AMP_D_017",(valide == false || verifiee == true));
+		$r4 : Regle(code == "AMP_D_019",(valide == false || verifiee == true));
+		$r5 : Regle(code == "AMP_C_002",(valide == false || verifiee == true));
+		$r6 : Regle(code == "AMP_C_003", valide == true);	
+		$r7 : Regle(code == "AMP_C_004",(valide == false || verifiee == true));	
+
+	then
+		
+		$resultat.setVerifiee(true);
+		update($resultat);		
+end
+
+rule "AMP_EVT_demande_prolongation_stagiaire"
+salience -1
+no-loop 
+	when
+		$resultat : Resultat(population == "STAGIAIRE")
+		$r1 : Regle(code == "AMP_D_001",(valide == false || verifiee == true));	
+		$r2 : Regle(code == "AMP_D_015",(valide == false || verifiee == true));
+		$r3 : Regle(code == "AMP_D_017",(valide == false || verifiee == true));
+		$r4 : Regle(code == "AMP_D_019",(valide == false || verifiee == true));	
+		$r5 : Regle(code == "AMP_C_002",(valide == false || verifiee == true));
+		$r6 : Regle(code == "AMP_C_003", valide == true);	
+		$r7 : Regle(code == "AMP_C_004",(valide == false || verifiee == true));	
+
+	then
+		
+		$resultat.setVerifiee(true);
+		update($resultat);		
+end
+
+rule "AMP_EVT_demande_init_reprise_titulaire"
+salience -1
+no-loop 
+	when
+		$resultat : Resultat(population == "TITULAIRE")
+		$r1 : Regle(code == "AMP_D_001",(valide == false || verifiee == true));	
+		$r2 : Regle(code == "AMP_D_014",(valide == false || verifiee == true));
+		$r3 : Regle(code == "AMP_D_017",(valide == false || verifiee == true));		
+		$r4 : Regle(code == "AMP_C_002",(valide == false || verifiee == true));
+		$r5 : Regle(code == "AMP_C_003", valide == true);		
+	then
+		
+		$resultat.setVerifiee(true);
+		update($resultat);		
+end
+
+rule "AMP_EVT_demande_init_reprise_stagiaire"
+salience -1
+no-loop 
+	when
+		$resultat : Resultat(population == "STAGIAIRE")
+		$r1 : Regle(code == "AMP_D_001",(valide == false || verifiee == true));	
+		$r2 : Regle(code == "AMP_D_015",(valide == false || verifiee == true));
+		$r3 : Regle(code == "AMP_D_017",(valide == false || verifiee == true));		
+		$r4 : Regle(code == "AMP_C_002",(valide == false || verifiee == true));
+		$r5 : Regle(code == "AMP_C_003", valide == true);		
+	then
+		
+		$resultat.setVerifiee(true);
+		update($resultat);		
+end
+
+rule "AMP_EVT_demande_prolong_reprise_titulaire"
+salience -1
+no-loop 
+	when
+		$resultat : Resultat(population == "TITULAIRE")
+		$r1 : Regle(code == "AMP_D_001",(valide == false || verifiee == true));	
+		$r2 : Regle(code == "AMP_D_014",(valide == false || verifiee == true));
+		$r3 : Regle(code == "AMP_D_017",(valide == false || verifiee == true));
+		$r4 : Regle(code == "AMP_D_019",(valide == false || verifiee == true));
+		$r5 : Regle(code == "AMP_C_002",(valide == false || verifiee == true));
+		$r6 : Regle(code == "AMP_C_003", valide == true);	
+		$r7 : Regle(code == "AMP_C_004",(valide == false || verifiee == true));	
+
+	then
+		
+		$resultat.setVerifiee(true);
+		update($resultat);		
+end
+
+rule "AMP_EVT_demande_prolong_reprise_stagiaire"
+salience -1
+no-loop 
+	when
+		$resultat : Resultat(population == "STAGIAIRE")
+		$r1 : Regle(code == "AMP_D_001",(valide == false || verifiee == true));	
+		$r2 : Regle(code == "AMP_D_015",(valide == false || verifiee == true));
+		$r3 : Regle(code == "AMP_D_017",(valide == false || verifiee == true));
+		$r4 : Regle(code == "AMP_D_019",(valide == false || verifiee == true));	
+		$r5 : Regle(code == "AMP_C_002",(valide == false || verifiee == true));
+		$r6 : Regle(code == "AMP_C_003", valide == true);	
+		$r7 : Regle(code == "AMP_C_004",(valide == false || verifiee == true));	
+
+	then
+		
+		$resultat.setVerifiee(true);
+		update($resultat);		
+end
+
+#created on: 20 déc. 2010
+#######################################################################################
+# Regles metiers pour MAT
+######################################################################################
+
+rule "MAT_EVT_dmd_mat_feminin_titulaire"
+salience -1
+no-loop 
+	when			
+		$r1 : Regle(code == "MAT_D_002", (valide == false || verifiee == true));
+		and		
+		$r2 : Regle(code == "MAT_D_003", (valide == false || verifiee == true));		
+		and				
+		$r4 : Regle(code == "MAT_D_012", (valide == false || verifiee == true));
+		and		
+		$r5 : Regle(code == "MAT_D_013", valide == true);
+		and		
+		$r6 : Regle(code == "MAT_D_014", (valide == false || verifiee == true));
+		and		
+		$r7 : Regle(code == "MAT_D_015", (valide == false || verifiee == true));
+		and		
+		$r8 : Regle(code == "MAT_D_017", (valide == false || verifiee == true));
+		and		
+		$r9 : Regle(code == "MAT_D_018", (valide == false || verifiee == true));
+		and		
+		$r10 : Regle(code == "MAT_C_004", (valide == false || verifiee == true));
+		and	
+		$r11 : Regle(code == "MAT_C_005", valide == true);
+		and		
+		$resultat : Resultat(population == "TITULAIRE")
+	then		
+		$resultat.setVerifiee(true);
+		update($resultat);	
+end
+
+rule "MAT_EVT_dmd_mat_feminin_stagiaire"
+salience -1
+no-loop 
+	when			
+		$r1 : Regle(code == "MAT_D_002", (valide == false || verifiee == true));
+		and		
+		$r2 : Regle(code == "MAT_D_004", (valide == false || verifiee == true));		
+		and				
+		$r4 : Regle(code == "MAT_D_012", (valide == false || verifiee == true));
+		and		
+		$r5 : Regle(code == "MAT_D_013", valide == true);
+		and		
+		$r6 : Regle(code == "MAT_D_014", (valide == false || verifiee == true));
+		and		
+		$r7 : Regle(code == "MAT_D_015", (valide == false || verifiee == true));
+		and		
+		$r8 : Regle(code == "MAT_D_017", (valide == false || verifiee == true));
+		and		
+		$r9 : Regle(code == "MAT_D_018", (valide == false || verifiee == true));
+		and		
+		$r10 : Regle(code == "MAT_C_004", (valide == false || verifiee == true));
+		and	
+		$r11 : Regle(code == "MAT_C_005", valide == true);
+		and		
+		$resultat : Resultat(population == "STAGIAIRE")
+	then		
+		$resultat.setVerifiee(true);
+		update($resultat);	
+end
+
+rule "MAT_EVT_dmd_mat_fem_post_titulaire"
+salience -1
+no-loop 
+	when			
+		$r1 : Regle(code == "MAT_D_002", (valide == false || verifiee == true));			
+		$r2 : Regle(code == "MAT_D_003", (valide == false || verifiee == true));	
+		$r4 : Regle(code == "MAT_D_012", (valide == false || verifiee == true));		
+		$r5 : Regle(code == "MAT_D_013", valide == true);		
+		$r6 : Regle(code == "MAT_C_004", (valide == false || verifiee == true));		
+		$r7 : Regle(code == "MAT_C_005", valide == true);		
+		$resultat : Resultat(population == "TITULAIRE")
+	then		
+		$resultat.setVerifiee(true);
+		update($resultat);	
+end
+
+rule "MAT_EVT_dmd_mat_fem_post_stagiaire"
+salience -1
+no-loop 
+	when			
+		$r1 : Regle(code == "MAT_D_002", (valide == false || verifiee == true));			
+		$r2 : Regle(code == "MAT_D_004", (valide == false || verifiee == true));	
+		$r4 : Regle(code == "MAT_D_012", (valide == false || verifiee == true));		
+		$r5 : Regle(code == "MAT_D_013", valide == true);		
+		$r6 : Regle(code == "MAT_C_004", (valide == false || verifiee == true));		
+		$r7 : Regle(code == "MAT_C_005", valide == true);		
+		$resultat : Resultat(population == "STAGIAIRE")
+	then		
+		$resultat.setVerifiee(true);
+		update($resultat);	
+end
+
+rule "MAT_EVT_dmd_mat_masculin_titulaire"
+salience -1
+no-loop 
+	when			
+		$r1 : Regle(code == "MAT_D_002", (valide == false || verifiee == true));		
+		$r2 : Regle(code == "MAT_D_003", (valide == false || verifiee == true));
+		$r4 : Regle(code == "MAT_D_012", (valide == false || verifiee == true));
+		$r5 : Regle(code == "MAT_C_004", (valide == false || verifiee == true));
+		$r6 : Regle(code == "MAT_C_005", valide == true);
+		$resultat : Resultat(population == "TITULAIRE")
+	then		
+		$resultat.setVerifiee(true);
+		update($resultat);	
+end
+
+rule "MAT_EVT_dmd_mat_masculin_stagiaire"
+salience -1
+no-loop 
+	when			
+		$r1 : Regle(code == "MAT_D_002", (valide == false || verifiee == true));		
+		$r2 : Regle(code == "MAT_D_004", (valide == false || verifiee == true));
+		$r4 : Regle(code == "MAT_D_012", (valide == false || verifiee == true));
+		$r5 : Regle(code == "MAT_C_004", (valide == false || verifiee == true));
+		$r6 : Regle(code == "MAT_C_005", valide == true);
+		$resultat : Resultat(population == "STAGIAIRE")
+	then		
+		$resultat.setVerifiee(true);
+		update($resultat);	
+end
+
+rule "MAT_EVT_dmd_grossesse_patho"
+salience -1
+no-loop 
+	when			
+		$r1 : Regle(code == "MAT_D_032", (valide == false || verifiee == true));	
+		$resultat : Resultat();	
+	then		
+		$resultat.setVerifiee(true);
+		update($resultat);	
+end
+
+rule "MAT_EVT_dmd_couches_patho"
+salience -1
+no-loop 
+	when			
+		$r1 : Regle(code == "MAT_D_033", (valide == false || verifiee == true));	
+		$resultat : Resultat();	
+	then		
+		$resultat.setVerifiee(true);
+		update($resultat);	
+end
+
+#generated from Decision Table
+#From row number: 10
+rule "ADI_S_001"
+	
+	when
+		$regle : Regle(code=="ADI_S_001", valide==true, verifiee==false)
+		$agent : AgentFait(statut == "TITU1")
+		$ret : Resultat(population == null)
+	then
+		$ret.setPopulation("TITULAIRE");
+ update($ret);
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 11
+rule "ADI_S_002"
+	
+	when
+		$regle : Regle(code=="ADI_S_002", valide==true, verifiee==false)
+		$agent : AgentFait(statut == "STAGI")
+		$ret : Resultat(population == null)
+	then
+		$ret.setPopulation("STAGIAIRE");
+ update($ret);
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 12
+rule "ADI_D_001_1"
+	
+	when
+		$regle : Regle(code=="ADI_D_001", valide==true, verifiee==false)
+		$ret : Resultat(population == "TITULAIRE")
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 13
+rule "ADI_D_001_2"
+	
+	when
+		$regle : Regle(code=="ADI_D_001", valide==true, verifiee==false)
+		$ret : Resultat(population == "STAGIAIRE")
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 14
+rule "ADI_D_003"
+	
+	when
+		$regle : Regle(code=="ADI_D_003", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "ADI_D_001",(valide == false || verifiee == true))
+		$agent : AgentFait()
+$congeAbsence : CongeAbsenceFait(dureeGestion <= 7)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 15
+rule "ADI_D_007"
+	
+	when
+		$regle : Regle(code=="ADI_D_007", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "ADI_D_001",(valide == false || verifiee == true))
+		$agent : AgentFait()
+$congeAbsence : CongeAbsenceFait(dureeGestion <= 5)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 16
+rule "ADI_D_008_1"
+	
+	when
+		$regle : Regle(code=="ADI_D_008", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "ADI_D_001",(valide == false || verifiee == true))
+		$agent : AgentFait(indicateurSFTenfantACharge == true)
+		$congeAbsence : CongeAbsenceFait(dateFinReelle != null, eval($agent.getDateNaissanceEnfantACharge() != null), eval(DateUtil.verifierDureePrecisionAnnee($agent.getDateNaissanceEnfantACharge(), dateFinReelle, 16 )< 0))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 17
+rule "ADI_D_008_2"
+	
+	when
+		$regle : Regle(code=="ADI_D_008", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "ADI_D_001",(valide == false || verifiee == true))
+		$agent : AgentFait(indicateurSFTenfantACharge == true, degreInvaliditeEnfant > 0)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 18
+rule "ADI_C_001_1"
+	
+	when
+		$regle : Regle(code=="ADI_C_001", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "ADI_D_001",(valide == false || verifiee == true))
+		$agent : AgentFait(positionCouranteEnActivite == true)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 19
+rule "ADI_C_001_2"
+	
+	when
+		$regle : Regle(code=="ADI_C_001", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "ADI_D_001",(valide == false || verifiee == true))
+		$agent : AgentFait(positionCourante in ("DEE01", "DEE02", "DEE03", "DEE04", "DEE05", "DEE06", "DEE07"))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 20
+rule "ADI_C_004"
+	
+	when
+		$regle : Regle(code=="ADI_C_004", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "ADI_D_001",(valide == false || verifiee == true))
+		$agent : AgentFait()
+$congeAbsence : CongeAbsenceFait(dateDebut != null, dateFinReelle != null, eval(DateUtil.beforeIncludePrecisionJour(dateDebut, dateFinReelle)))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+#From row number: 21
+rule "ADI_C_006"
+	
+	when
+		$regle : Regle(code=="ADI_C_006", valide==true, verifiee==false)
+		$regleIntermediaire : Regle(code == "ADI_D_001",(valide == false || verifiee == true))
+		$agent : AgentFait()
+$congeAbsence : CongeAbsenceFait(dateFinReelle != null, eval($agent.getDateLimiteDepartRetraite() != null), eval(DateUtil.beforePrecisionJour(dateFinReelle, $agent.getDateLimiteDepartRetraite())))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+#From row number: 22
+rule "CDI_D_016_1"
+	when
+		$regle : Regle(code=="CDI_D_016", valide==true, verifiee==false)
+		$agent : AgentFait(statut == "TITU1")
+		$ret : Resultat(population == null)
+	then
+		$ret.setPopulation("TITULAIRE");
+ update($ret);
+		$regle.setVerifiee(true);
+ update($regle);
+end 
+
+rule "CDI_D_016_2"
+	when
+		$regle : Regle(code=="CDI_D_016", valide==true, verifiee==false)
+		$agent : AgentFait(statut == "STAGI")
+		$ret : Resultat(population == null)
+	then
+		$ret.setPopulation("STAGIAIRE");
+ update($ret);
+		$regle.setVerifiee(true);
+ update($regle);
+end 
+rule "CDI_D_016_3"
+	when
+		$regle : Regle(code=="CDI_D_016", valide==true, verifiee==false)
+		
+		$agent : AgentFait(positionCouranteEnActivite == false , positionCourante not in ("ACE01", "ACE02", "ACE03", "ACE04", "ACE05", "ACI01", "ACI02", "ACI03", "ACI04", "ACI05", "DEE01", "DEE02", "DEE03", "DEE04", "DEE05", "DEE06", "DEE07", "DEE08", "DES01", "DES02", "DES03", "DES04", "DES05", "DES06", "DES07", "DES08", "DET01", "DET02", "DET04", "DET05", "DET06", "DET07", "DET08", "DET10" , "DET11", "DET13", "DET14", "DET15", "DET16", "DET17", "DET18", "DET19", "DET20", "DET21", "DET22", "DET23", "DET24", "DET25", "DET26", "DET27", "DET28", "DET29", "DET30", "DET31", "DET32", "MAD11", "MAD15", "MAD18",  "MAD20", "MAD21", "MAD22", "MAD23", "MAD51", "MAD55", "MAD57", "MAD58", "MAD60", "MAD61", "MAD63", "MAD64", "MAD65", "MAD71", "MAD72", "MAD73", "MAD74", "MAD75", "MAD76"))
+		
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+#From row number: 24
+rule "CDI_D_022_1"
+	when
+		$regle : Regle(code=="CDI_D_022", valide==true, verifiee==false)
+		$congeAbsence : CongeAbsenceFait(typeCompteurConge =="CD003")
+		
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+#From row number: 25
+rule "CDI_D_022_2"
+	when
+		$regle : Regle(code=="CDI_D_022", valide==true, verifiee==false)
+		$congeAbsence : CongeAbsenceFait(cumulCongeCD003 >9)
+		
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+#From row number: 26
+rule "CDI_D_045_1"
+	when
+		$regle : Regle(code=="CDI_D_045", valide==true, verifiee==false)
+		$congeAbsence : CongeAbsenceFait(typeCompteurConge in ("CD002","CD003","CF005"))
+		
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+
+rule "CDI_D_045_2"
+	when
+		$regle : Regle(code=="CDI_D_045", valide==true, verifiee==false)
+		$congeAbsence : CongeAbsenceFait(cumulTotalConge <=12)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+
+rule "CDI_C_001"
+	when
+		$regle : Regle(code=="CDI_C_001", valide==true, verifiee==false)
+		$congeAbsence : CongeAbsenceFait(debucaFpe >=0)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+
+rule "CDI_C_003"
+	when
+		$regle : Regle(code=="CDI_C_003", valide==true, verifiee==false)
+		$congeAbsence : CongeAbsenceFait(dateFinReelle != null, eval( DateUtil.beforeIncludePrecisionJour(dateDebut,dateFinReelle)))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+
+rule "CDI_C_007"
+	when
+		$regle : Regle(code=="CDI_C_007", valide==true, verifiee==false)
+		$congeAbsence : CongeAbsenceFait(finCARetraitePrev <=0) 
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+
+rule "CDI_C_009"
+	when
+		$regle : Regle(code=="CDI_C_009", valide==true, verifiee==false)
+		$congeAbsence : CongeAbsenceFait(dateFinReelle != null || dateFinPrevisionnelle != null)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+
+rule "CDI_C_019"
+	when
+		$regle : Regle(code=="CDI_C_019", valide==true, verifiee==false)
+		$congeAbsence : CongeAbsenceFait(matinORApresMidiDFR == "APM" || matinORApresMidiDD == "MAT")
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+rule "CDI_C_041_1"
+	when
+		$regle : Regle(code=="CDI_C_041", valide==true, verifiee==false)
+		$congeAbsence : CongeAbsenceFait(dateDebutInitCptConge in(dateAvecAnneeDatedebutConge,dateAvecAnneeDateFinReelConge,dateAvecAnneeDateFinPrevConge))
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+rule "CDI_C_041_2"
+	when
+		$regle : Regle(code=="CDI_C_041", valide==true, verifiee==false)
+		$congeAbsence : CongeAbsenceFait(dateFinInitCptConge != dateAvecAnneeDateDebutInitCptCong)
+	then
+		$regle.setVerifiee(true);
+ update($regle);
+end
+
+rule "CDI_EVT_demande_titulaire"
+salience -1
+no-loop 
+	when	
+		$resultat : Resultat(population == "TITULAIRE")
+	    $r1 : Regle(code == "CDI_D_016",(valide == false || verifiee == true));	
+		$r2 : Regle(code == "CDI_D_022",(valide == false || verifiee == true));
+		$r3 : Regle(code == "CDI_D_045",(valide == false || verifiee == true));	
+		$r4 : Regle(code == "CDI_C_001",(valide == false || verifiee == true));	
+		$r5 : Regle(code == "CDI_C_003",(valide == false || verifiee == true));
+		$r6 : Regle(code == "CDI_C_007", valide == true);
+		$r7 : Regle(code == "CDI_C_009",(valide == false || verifiee == true));
+		$r8 : Regle(code == "CDI_C_019",(valide == false || verifiee == true));
+		$r9 : Regle(code == "CDI_C_041",(valide == false || verifiee == true));
+		
+
+	then
+		$resultat.setVerifiee(true);
+		update($resultat);
+end
+
+rule "CDI_EVT_demande_stagiaire"
+salience -1
+no-loop 
+	when	
+		$resultat : Resultat(population == "STAGIAIRE")
+	    $r1 : Regle(code == "CDI_D_016",(valide == false || verifiee == true));	
+		$r2 : Regle(code == "CDI_D_022",(valide == false || verifiee == true));
+		$r3 : Regle(code == "CDI_D_045",(valide == false || verifiee == true));	
+		$r4 : Regle(code == "CDI_C_001",(valide == false || verifiee == true));	
+		$r5 : Regle(code == "CDI_C_003",(valide == false || verifiee == true));
+		$r6 : Regle(code == "CDI_C_007", valide == true);
+		$r7 : Regle(code == "CDI_C_009",(valide == false || verifiee == true));
+		$r8 : Regle(code == "CDI_C_019",(valide == false || verifiee == true));
+		$r9 : Regle(code == "CDI_C_041",(valide == false || verifiee == true));
+	then
+		$resultat.setVerifiee(true);
+		update($resultat);
+end
