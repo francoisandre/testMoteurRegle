@@ -8,7 +8,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
 import fr.gouv.education.sirhen.ct.moteurregles.service.IMoteurReglesService;
-import fr.gouv.education.sirhen.ct.moteurregles.service.impl.DingoMoteur;
+import fr.gouv.education.sirhen.ct.moteurregles.service.impl.MoteurDrlInterne;
 import fr.gouv.education.sirhen.ct.socle.configuration.ConfigurationComposantTechnique;
 
 @Configuration
@@ -19,7 +19,7 @@ public class TestConfiguration {
 
 	@Bean
 	public IMoteurReglesService getMoteurRegles() {
-		IMoteurReglesService resultat = new DingoMoteur(appContext, getConfigurationComposantTechnique());
+		IMoteurReglesService resultat = new MoteurDrlInterne(appContext, getConfigurationComposantTechnique());
 		return resultat;
 	}
 

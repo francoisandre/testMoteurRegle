@@ -25,9 +25,9 @@ import fr.gouv.education.sirhen.ct.moteurregles.transverse.Constantes;
 import fr.gouv.education.sirhen.ct.moteurregles.transverse.util.MoteurReglesUtil;
 import fr.gouv.education.sirhen.ct.socle.configuration.ConfigurationComposantTechnique;
 
-public class DingoMoteur extends MoteurReglesServiceImpl {
+public class MoteurDrlInterne extends MoteurReglesServiceImpl {
 
-	public DingoMoteur(final ApplicationContext applicationContext, final ConfigurationComposantTechnique configuration) {
+	public MoteurDrlInterne(final ApplicationContext applicationContext, final ConfigurationComposantTechnique configuration) {
 		super(applicationContext, configuration);
 	}
 

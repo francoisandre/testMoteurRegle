@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,9 +36,15 @@ public class TestBasic {
 
 		Resultat resultat = moteurRegles.executerRegles(faits, "ASF_EVT_demande_absence_service");
 		List < IRegle > regles = resultat.getRegles();
+		Assert.assertEquals(3, regles.size());
 		for (IRegle iRegle : regles) {
-			System.out.println("Regle " + iRegle.getCode() + ": " + iRegle.getVerifiee());
+			if (iRegle.getCode().compareTo("ASF_C_003") == 0) {
+				Assert.assertTrue(iRegle.getVerifiee());
+			} else {
+				Assert.assertFalse(iRegle.getVerifiee());
+			}
 		}
+		Assert.assertFalse(resultat.isVerifiee());
 
 	}
 
